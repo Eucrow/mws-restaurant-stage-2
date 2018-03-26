@@ -137,7 +137,7 @@ nav h1 a {
   width: calc(100vw - 40px);
   min-height: 48px;
   letter-spacing: 0;
-  margin: 5px 10px;
+  margin: 5px 20px;
 }
 
 /* ====================== Restaurant Listing ====================== */
@@ -286,4 +286,9 @@ nav h1 a {
 }
 #restaurant-hours td {
   color: #666;
+}
+
+/* ====================== Restaurant Details ====================== */
+@media screen and (max-width: 400px) {
+  body { background-color: green; }
 }
