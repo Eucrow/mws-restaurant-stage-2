@@ -127,26 +127,24 @@ nav h1 a {
 /* ====================== Restaurant Filtering ====================== */
 .filter-options {
   width: 100%;
-  /* height: 50px; */
   background-color: #3397DB;
-  align-items: center;
-  padding-bottom: 10px;
+  padding: 10px;
 }
 .filter-options h2 {
   color: white;
   font-size: 1rem;
   font-weight: normal;
-  padding: 5px 10px;
+  /* padding: 5px 10px; */
+  width: 100%;
 }
 .filter-options select {
   background-color: white;
   border: 1px solid #fff;
   font-family: Arial,sans-serif;
   font-size: 0.9rem;
-  width: calc(100vw - 40px);
+  width: 100%;
   min-height: 48px;
-  letter-spacing: 0;
-  margin: 5px 20px;
+  margin-top: 5px;
 }
 
 /* ====================== Restaurant Listing ====================== */
@@ -165,7 +163,8 @@ nav h1 a {
   background-color: #fff;
   border: 2px solid #ccc;
   font-family: Arial,sans-serif;
-  margin: 15px;
+  margin: 10px;
+  width: 100%;
   /* min-height: 380px;
   padding: 0 30px 25px;
   text-align: left;
@@ -313,45 +312,56 @@ nav h1 a {
       width: 100%;
     }
 .restaurant-container{
-  width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   order: 2;
 }
     .restaurant-name{
       color: #f18200;
       font-family: Arial,sans-serif;
       text-align: center;
+      width: 100%;
       padding: 15px 0 5px 0;
+      order: 1;
     }
-    .restaurant-img{
+    .restaurant-img-wrapper{
+      max-width: 100%;
+      order: 2;
+    }
+      .restaurant-img{
+        max-width: 100%;
+        height: auto;
+        /* order: 2; */
+      }
+    .restaurant-data{
+      order: 3;
       width: 100%;
     }
-    .restaurant-cuisine{
-      background-color: #333;
-      color: #ddd;
-      font-weight: 300;
-      letter-spacing: 10px;
-      margin: 0;
-      padding: 2px 0 2px 0;
-      text-align: center;
-      text-transform: uppercase;
-      width: 100%;
-    }
-    .restaurant-address{
-      padding: 0 10px;
-      text-align: center;
-    }
-    .restaurant-hours{
-      width: 100%;
-      padding: 0 10px;
-    }
-    .restaurant-hours tr:nth-child(odd){
-      background-color: #dad6d6c0;
-    }
-    .restaurant-hours td{
-      vertical-align: top;
-    }
+      .restaurant-cuisine{
+        background-color: #333;
+        color: #ddd;
+        font-weight: 300;
+        letter-spacing: 10px;
+        padding: 2px 0;
+        text-align: center;
+        text-transform: uppercase;
+        width: 100%;
+      }
+      .restaurant-address{
+        text-align: center;
+        padding: 0 10px;
+      }
+      .restaurant-hours{
+        /* width: 100%; */
+        margin: auto;
+        padding: 0 10px;
+      }
+      .restaurant-hours tr:nth-child(odd){
+        background-color: #dad6d6c0;
+      }
+      .restaurant-hours td{
+        vertical-align: top;
+      }
 /* ============ Restaurant Reviews ============ */
 .reviews-container{
   width: 100%;
@@ -368,6 +378,7 @@ nav h1 a {
     .review-wraper{
       padding: 0 10px;
       width: 100%;
+      list-style-type: none;
     }
     .review-header{
       background-color: #333;
@@ -402,18 +413,62 @@ nav h1 a {
       margin: 10px 0;
     }
 
-/* ====================== Restaurant Details ====================== */
+/* ====================== Media Queries ====================== */
 @media screen and (min-width: 700px) {
+  .filter-options{
+    display: flex;
+  }
+  .filter-options *{
+    margin-right: 10px;
+  }
+  .filter-options *:last-child{
+    margin-right: 0;
+  }
+  .filter-options h2{
+    width: auto;
+    flex-grow: 0;
+  }
+  .filter-options select{
+    width: auto;
+    flex-grow: 1;
+  }
+
+  #restaurants-list li {
+    margin: 10px 0;
+    width: calc(50% - 20px);
+  }
+  /* To any chlid element from .restaurant-container: */
+  .restaurant-container > *{
+    /* Is mandatory specify the left and right padding because some child elements has previously
+    a top an bottom padding: */
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+  .restaurant-name{
+    width: 100%;
+  }
+  .restaurant-img-wrapper{
+    width: 50%;
+    order: 3;
+  }
+  .restaurant-img{
+    max-width: 100%;
+    height: auto;
+  }
+  .restaurant-data{
+    width: 50%;
+    order: 2;
+  }
+  .restaurant-cuisine{
+    margin: 0;
+  }  
   .review-wraper{
     width: 50%;
   }
-
-  .restaurant-name{
-    
+}
+@media screen and (min-width:1280px){
+  header, main, footer{
+    max-width: 1280px;
+    margin: 0 auto;
   }
-  .restaurant-img{
-    width: 50%;
-  }
-  
-  
 }
