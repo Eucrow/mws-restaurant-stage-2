@@ -138,10 +138,47 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
 createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
 
-  const image = document.createElement('img');
-  image.className = 'restaurant-img';
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
-  li.append(image);
+  // const image = document.createElement('img');
+  // image.className = 'restaurant-img';
+  // image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  // li.append(image);
+
+//   <picture>
+//   <source media="(min-width:551px)" 
+//     srcset="images/cockatoos.jpg"
+//     type="image/jpeg">
+//   <source media="(max-width:500px)"
+//     srcset="images/cockatoos_close.jpg"
+//     type="image/jpeg">
+//   <img src="images/cockatoos.jpg" alt="cockatoos">
+// </picture>
+
+
+  const picture = document.createElement('picture');
+  // picture.className = 'restaurant-img';
+  imageSrc = DBHelper.imageUrlForRestaurant(restaurant);
+  imageExtension = imageSrc.slice((imageSrc.lastIndexOf(".") - 1 >>> 0) + 2);
+  imagePathWhitoutExtension = imageSrc.slice(0, imageSrc.lastIndexOf(".")) 
+  // small image
+  let source = document.createElement('source');
+  source.className = 'restaurant-img';
+  source.media = "(max-width:350px)";
+  source.srcset = imagePathWhitoutExtension + "_350." + imageExtension;
+  source.type = "image/jpeg"
+  picture.appendChild(source)
+  // medium image
+  source = document.createElement('source');
+  source.className = 'restaurant-img';
+  source.media = "(min-width:351px, max-width:700px)";
+  source.srcset = imagePathWhitoutExtension + "_700." + imageExtension;
+  source.type = "image/jpeg"
+  picture.appendChild(source)
+  // default image (the biggest one)
+  const img = document.createElement('img');
+  img.className = 'restaurant-img';
+  img.src = imagePathWhitoutExtension + "_800." + imageExtension;
+  picture.appendChild(img);
+  li.append(picture);
 
   const name = document.createElement('h1');
   name.innerHTML = restaurant.name;

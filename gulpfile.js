@@ -37,9 +37,9 @@ gulp.task("responsive", function(){
     gulp.src('./originalimg/*.jpg')
     .pipe(responsive({
         '*.jpg':[
-            { width: 1280, suffix: "_1280"},
-            { width: 800, suffix: "_800"},
-            { width: 400, suffix: "_400"}
+            { width: 350, suffix: "_350"},
+            { width: 700, suffix: "_700"},
+            { width: 800, suffix: "_800"}
         ]
     }))
     .pipe(gulp.dest('./img/'))
