@@ -46,6 +46,38 @@ fetchRestaurantFromURL = (callback) => {
 }
 
 /**
+ * Create HTML link to an image with differents size options
+ */
+getHtmlImagesLink = (restaurant) => {
+  const picture = document.createElement('picture');
+  // picture.className = 'restaurant-img';
+  imageSrc = DBHelper.imageUrlForRestaurant(restaurant);
+  imageExtension = imageSrc.slice((imageSrc.lastIndexOf(".") - 1 >>> 0) + 2);
+  imagePathWhitoutExtension = imageSrc.slice(0, imageSrc.lastIndexOf(".")) 
+  // small image
+  let source = document.createElement('source');
+  source.className = 'restaurant-img';
+  source.media = "(max-width:350px)";
+  source.srcset = imagePathWhitoutExtension + "_350." + imageExtension;
+  source.type = "image/jpeg"
+  picture.appendChild(source)
+  // medium image
+  source = document.createElement('source');
+  source.className = 'restaurant-img';
+  source.media = "(min-width:351px, max-width:700px)";
+  source.srcset = imagePathWhitoutExtension + "_700." + imageExtension;
+  source.type = "image/jpeg"
+  picture.appendChild(source)
+  // default image (the biggest one)
+  const img = document.createElement('img');
+  img.className = 'restaurant-img';
+  img.src = imagePathWhitoutExtension + "_800." + imageExtension;
+  picture.appendChild(img);
+  li.append(picture);
+
+}
+ 
+/**
  * Create restaurant HTML and add it to the webpage
  */
 fillRestaurantHTML = (restaurant = self.restaurant) => {
@@ -55,9 +87,35 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   const address = document.getElementById('restaurant-address');
   address.innerHTML = restaurant.address;
 
+  // const image = document.getElementById('restaurant-img');
+  // image.className = 'restaurant-img'
+  // image.src = DBHelper.imageUrlForRestaurant(restaurant);
+
   const image = document.getElementById('restaurant-img');
-  image.className = 'restaurant-img'
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  imageSrc = DBHelper.imageUrlForRestaurant(restaurant);
+  imageExtension = imageSrc.slice((imageSrc.lastIndexOf(".") - 1 >>> 0) + 2);
+  imagePathWhitoutExtension = imageSrc.slice(0, imageSrc.lastIndexOf(".")) 
+  // small image
+  let source = document.createElement('source');
+  source.className = 'restaurant-img';
+  source.media = "(max-width:350px)";
+  source.srcset = imagePathWhitoutExtension + "_350." + imageExtension;
+  source.type = "image/jpeg"
+  image.appendChild(source)
+  // medium image
+  source = document.createElement('source');
+  source.className = 'restaurant-img';
+  source.media = "(min-width:351px, max-width:700px)";
+  source.srcset = imagePathWhitoutExtension + "_700." + imageExtension;
+  source.type = "image/jpeg"
+  image.appendChild(source)
+  // default image (the biggest one)
+  const img = document.createElement('img');
+  img.className = 'restaurant-img';
+  img.src = imagePathWhitoutExtension + "_800." + imageExtension;
+  image.appendChild(img);
+  // li.append(picture);
+
 
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;
