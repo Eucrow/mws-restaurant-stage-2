@@ -379,9 +379,13 @@ box-shadow: 0px 0px 4px 3px rgba(31, 87, 124,0.75);
 /* ============ Restaurant Reviews ============ */
 .reviews-container{
   width: 100%;
-  padding: 0;
+  padding: 20px 0 0 0;
   order: 3;
 }
+  .reviews-container h2{
+    padding: 0 10px;
+    font-size: 1.1rem;
+  }
   .reviews-list{
     display: flex;
     flex-wrap: wrap;
