@@ -49,7 +49,6 @@ fetchRestaurantFromURL = (callback) => {
  * Create HTML link to an image with differents size options
  */
 getHtmlImagesLink = (restaurant) => {
-  const picture = document.createElement('picture');
   // picture.className = 'restaurant-img';
   imageSrc = DBHelper.imageUrlForRestaurant(restaurant);
   imageExtension = imageSrc.slice((imageSrc.lastIndexOf(".") - 1 >>> 0) + 2);
@@ -72,6 +71,7 @@ getHtmlImagesLink = (restaurant) => {
   const img = document.createElement('img');
   img.className = 'restaurant-img';
   img.src = imagePathWhitoutExtension + "_800." + imageExtension;
+  img.alt = "";
   picture.appendChild(img);
   li.append(picture);
 
@@ -88,34 +88,36 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   address.innerHTML = restaurant.address;
 
   // const image = document.getElementById('restaurant-img');
-  // image.className = 'restaurant-img'
-  // image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  // imageSrc = DBHelper.imageUrlForRestaurant(restaurant);
+  // imageExtension = imageSrc.slice((imageSrc.lastIndexOf(".") - 1 >>> 0) + 2);
+  // imagePathWhitoutExtension = imageSrc.slice(0, imageSrc.lastIndexOf(".")) 
+  // // small image
+  // let source = document.createElement('source');
+  // source.className = 'restaurant-img';
+  // source.media = "(max-width:350px)";
+  // source.srcset = imagePathWhitoutExtension + "_350." + imageExtension;
+  // source.type = "image/jpeg"
+  // image.appendChild(source)
+  // // medium image
+  // source = document.createElement('source');
+  // source.className = 'restaurant-img';
+  // source.media = "(min-width:351px, max-width:700px)";
+  // source.srcset = imagePathWhitoutExtension + "_700." + imageExtension;
+  // source.type = "image/jpeg"
+  // image.appendChild(source)
+  // // default image (the biggest one)
+  // const img = document.createElement('img');
+  // img.className = 'restaurant-img';
+  // img.src = imagePathWhitoutExtension + "_800." + imageExtension;
+  // image.appendChild(img);
+  // // li.append(picture);
+  
+  // const picture = document.createElement('picture');
+  // picture.innerHTML = getHtmlImagesLink();
 
-  const image = document.getElementById('restaurant-img');
-  imageSrc = DBHelper.imageUrlForRestaurant(restaurant);
-  imageExtension = imageSrc.slice((imageSrc.lastIndexOf(".") - 1 >>> 0) + 2);
-  imagePathWhitoutExtension = imageSrc.slice(0, imageSrc.lastIndexOf(".")) 
-  // small image
-  let source = document.createElement('source');
-  source.className = 'restaurant-img';
-  source.media = "(max-width:350px)";
-  source.srcset = imagePathWhitoutExtension + "_350." + imageExtension;
-  source.type = "image/jpeg"
-  image.appendChild(source)
-  // medium image
-  source = document.createElement('source');
-  source.className = 'restaurant-img';
-  source.media = "(min-width:351px, max-width:700px)";
-  source.srcset = imagePathWhitoutExtension + "_700." + imageExtension;
-  source.type = "image/jpeg"
-  image.appendChild(source)
-  // default image (the biggest one)
-  const img = document.createElement('img');
-  img.className = 'restaurant-img';
-  img.src = imagePathWhitoutExtension + "_800." + imageExtension;
-  image.appendChild(img);
-  // li.append(picture);
-
+  const picture = document.getElementById('restaurant-img');
+  picture.className = 'restaurant-img'
+  picture.src = DBHelper.getHtmlImagesLink(restaurant);
 
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;
@@ -133,6 +135,24 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
  */
 fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => {
   const hours = document.getElementById('restaurant-hours');
+
+  const caption = document.createElement('caption');
+  caption.innerHTML = 'Operating hours';
+  hours.appendChild(caption);
+
+  const tableTitlesRow = document.createElement('tr')
+
+  const tableTitleDay = document.createElement('th');
+  tableTitleDay.setAttribute('scope', 'col');
+  tableTitleDay.innerHTML = 'Days';
+  tableTitlesRow.appendChild(tableTitleDay);
+
+  const tableTitleHours = document.createElement('th');
+  tableTitleHours.innerHTML = 'Hours';
+  tableTitlesRow.appendChild(tableTitleHours);
+  
+  hours.appendChild(tableTitlesRow);
+
   for (let key in operatingHours) {
     const row = document.createElement('tr');
 
@@ -213,6 +233,7 @@ fillBreadcrumb = (restaurant=self.restaurant) => {
   const breadcrumb = document.getElementById('breadcrumb');
   const li = document.createElement('li');
   li.innerHTML = restaurant.name;
+  li.setAttribute('aria-current', 'page');
   breadcrumb.appendChild(li);
 }
 
