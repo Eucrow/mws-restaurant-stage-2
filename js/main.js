@@ -139,6 +139,7 @@ resetRestaurants = (restaurants) => {
 fillRestaurantsHTML = (restaurants = self.restaurants) => {
   const ul = document.getElementById('restaurants-list');
   restaurants.forEach(restaurant => {
+    ul.setAttribute('aria-label', `List of restaurants`)
     ul.append(createRestaurantHTML(restaurant));
   });
   addMarkersToMap();
@@ -178,6 +179,7 @@ createRestaurantHTML = (restaurant) => {
 
   const name = document.createElement('h1');
   name.innerHTML = restaurant.name;
+  name.setAttribute('aria-label', `Restaurant ${restaurant.name}`)
   li.append(name);
 
   const neighborhood = document.createElement('p');
@@ -185,11 +187,12 @@ createRestaurantHTML = (restaurant) => {
   li.append(neighborhood);
 
   const address = document.createElement('p');
+  address.setAttribute('aria-label', `Adress of ${restaurant.name}`)
   address.innerHTML = restaurant.address;
   li.append(address);
 
   const more = document.createElement('a');
-  more.setAttribute('aria-label', `View details of restaurant ${restaurant.name}`);
+  more.setAttribute('aria-label', `View detailsss of restaurant ${restaurant.name}`);
   more.innerHTML = 'View Details';
   more.href = DBHelper.urlForRestaurant(restaurant);
   li.append(more)
