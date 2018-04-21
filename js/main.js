@@ -5,6 +5,18 @@ var map
 var markers = []
 
 /**
+ * Register the service worker
+ */
+if (navigator.serviceWorker){
+  navigator.serviceWorker.register('sw.js').then(function(){
+    console.log('Registration worked!');
+    }).catch(function(){
+    console.log('Registration failed!');
+  });
+}
+
+
+/**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {
@@ -137,22 +149,6 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
  */
 createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
-
-  // const image = document.createElement('img');
-  // image.className = 'restaurant-img';
-  // image.src = DBHelper.imageUrlForRestaurant(restaurant);
-  // li.append(image);
-
-//   <picture>
-//   <source media="(min-width:551px)" 
-//     srcset="images/cockatoos.jpg"
-//     type="image/jpeg">
-//   <source media="(max-width:500px)"
-//     srcset="images/cockatoos_close.jpg"
-//     type="image/jpeg">
-//   <img src="images/cockatoos.jpg" alt="cockatoos">
-// </picture>
-
 
   const picture = document.createElement('picture');
   // picture.className = 'restaurant-img';
