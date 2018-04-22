@@ -174,6 +174,7 @@ createRestaurantHTML = (restaurant) => {
   const img = document.createElement('img');
   img.className = 'restaurant-img';
   img.src = imagePathWhitoutExtension + "_800." + imageExtension;
+  img.alt = ``;
   picture.appendChild(img);
   li.append(picture);
 
@@ -186,7 +187,7 @@ createRestaurantHTML = (restaurant) => {
   neighborhood.innerHTML = restaurant.neighborhood;
   li.append(neighborhood);
 
-  const address = document.createElement('p');
+  const address = document.createElement('address');
   address.setAttribute('aria-label', `Adress of ${restaurant.name}`)
   address.innerHTML = restaurant.address;
   li.append(address);
