@@ -88,7 +88,6 @@ fillPictureRestaurant = (restaurant = self.restaurant) =>{
   picture.appendChild(img);
 }
 
-
 /**
  * Create restaurant HTML and add it to the webpage
  */
