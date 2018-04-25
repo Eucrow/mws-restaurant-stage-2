@@ -64,15 +64,37 @@ self.addEventListener('activate', function(event){
 
 self.addEventListener('fetch', function(event){
 
-  event.respondWith(
+
+  if (event.request.cache === 'only-if-cached' && event.request.mode !== 'same-origin') {
+    return;
+  }
+
+  const url = new URL(event.request.url);
   
-    caches.match(event.request, {ignoreSearch:true}).then(function(response){
-      if (response){
-        console.log('Found ', event.request.url, ' in cache');
-        return response;
-      }
-      return fetch(event.request);
-    })
-  );
+  if (url.pathname.startsWith('/restaurant.html')) {
+        event.respondWith(
+            caches.match('restaurant.html')
+            .then(response => response || fetch(event.request))
+        );
+        return;
+  } else {
+    event.respondWith(
+      caches.match(event.request).
+      then(response => response || fetch(event.reques))
+    );
+  }
+
+  // I think this work in the same way:
+  // event.respondWith(
   
+  //   caches.match(event.request, {ignoreSearch:true}).then(function(response){
+  //     if (response){
+  //       console.log('Found ', event.request.url, ' in cache');
+  //       return response;
+  //     }
+  //     return fetch(event.request);
+  //   })
+  // );
+  
+
 });
