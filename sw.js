@@ -65,9 +65,9 @@ self.addEventListener('activate', function(event){
 self.addEventListener('fetch', function(event){
 
 
-  // if (event.request.cache === 'only-if-cached' && event.request.mode !== 'same-origin') {
-  //   return;
-  // }
+  if (event.request.cache === 'only-if-cached' && event.request.mode !== 'same-origin') {
+    return;
+  }
 
   const url = new URL(event.request.url);
   
