@@ -14,9 +14,9 @@
 <body class="inside">
   <!-- Beginning header -->
   <header>
+    <h1><a href="/">Restaurant Reviews</a></h1>
     <!-- Beginning nav -->
-    <nav>
-      <h1><a href="/">Restaurant Reviews</a></h1>
+    <nav aria-label="Breadcrumb">
       <!-- Beginning breadcrumb -->
       <ul role="navigation" aria-label="Breadcrumb" id="breadcrumb" >
         <li><a href="/">Home</a></li>
@@ -31,12 +31,12 @@
   <main class="maincontent" id="maincontent">
     <!-- Beginning map -->
     <section class="map-container" id="map-container">
-      <div id="map"></div>
+      <div role="application" aria-label="Location of the restaurant in google maps" id="map"></div>
     </section>
     <!-- End map -->
     <!-- Beginning restaurant -->
     <section class="restaurant-container" id="restaurant-container">
-      <h1 class="restaurant-name" id="restaurant-name"></h1>
+      <h2 class="restaurant-name" id="restaurant-name"></h2>
       <div class="restaurant-img-wrapper">
         <picture class="restaurant-img" id="restaurant-img">
         </picture>

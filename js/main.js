@@ -1,20 +1,10 @@
+import './init_sw.js';
+
 let restaurants,
   neighborhoods,
   cuisines
 var map
 var markers = []
-
-/**
- * Register the service worker
- */
-if (navigator.serviceWorker){
-  navigator.serviceWorker.register('sw.js').then(function(){
-    console.log('Registration worked!');
-    }).catch(function(){
-    console.log('Registration failed!');
-  });
-}
-
 
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
@@ -174,11 +164,11 @@ createRestaurantHTML = (restaurant) => {
   const img = document.createElement('img');
   img.className = 'restaurant-img';
   img.src = imagePathWhitoutExtension + "_800." + imageExtension;
-  img.alt = ``;
+  img.alt = `Image of ${restaurant.name} restaurant`;
   picture.appendChild(img);
   li.append(picture);
 
-  const name = document.createElement('h1');
+  const name = document.createElement('h2');
   name.innerHTML = restaurant.name;
   name.setAttribute('aria-label', `Restaurant ${restaurant.name}`)
   li.append(name);

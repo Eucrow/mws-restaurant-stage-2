@@ -1,4 +1,4 @@
-const staticCacheName = 'restaurant-review-v16';
+const staticCacheName = 'restaurant-review-v23';
 
 self.addEventListener('install', function(event){
   event.waitUntil(
@@ -6,7 +6,7 @@ self.addEventListener('install', function(event){
       return cache.addAll([
         'index.html',
         'restaurant.html',
-        'sw.js',
+        // 'sw.js', // The service worker itself musn't be cached
         'js/main.js',
         'js/dbhelper.js',
         'js/restaurant_info.js',
@@ -64,23 +64,21 @@ self.addEventListener('activate', function(event){
 
 self.addEventListener('fetch', function(event){
 
+  // if (event.request.cache === 'only-if-cached' && event.request.mode !== 'same-origin') {
+  //   return;
+  // }
 
-  if (event.request.cache === 'only-if-cached' && event.request.mode !== 'same-origin') {
-    return;
-  }
 
   const url = new URL(event.request.url);
   
   if (url.pathname.startsWith('/restaurant.html')) {
         event.respondWith(
-            caches.match('restaurant.html')
-            .then(response => response || fetch(event.request))
+            caches.match('restaurant.html').then(response => response || fetch(event.request))
         );
         return;
   } else {
     event.respondWith(
-      caches.match(event.request).
-      then(response => response || fetch(event.reques))
+      caches.match(event.request).then(response => response || fetch(event.request))
     );
   }
 
