@@ -7,13 +7,13 @@ var markers = []
 /**
  * Register the service worker
  */
-if (navigator.serviceWorker){
-  navigator.serviceWorker.register('sw.js').then(function(){
-    console.log('Registration worked!');
-    }).catch(function(){
-    console.log('Registration failed!');
-  });
-}
+// if (navigator.serviceWorker){
+//   navigator.serviceWorker.register('sw.js').then(function(){
+//     console.log('Registration worked!');
+//     }).catch(function(){
+//     console.log('Registration failed!');
+//   });
+// }
 
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
@@ -139,7 +139,7 @@ resetRestaurants = (restaurants) => {
  * Create all restaurants HTML and add them to the webpage.
  */
 fillRestaurantsHTML = (restaurants = self.restaurants) => {
-
+  console.log(restaurants);
   const ul = document.getElementById('restaurants-list');
   restaurants.forEach(restaurant => {
     ul.setAttribute('aria-label', `List of restaurants`)
@@ -156,9 +156,10 @@ createRestaurantHTML = (restaurant) => {
 
   const picture = document.createElement('picture');
   // picture.className = 'restaurant-img';
-  imageSrc = DBHelper.imageUrlForRestaurant(restaurant);
+  imageSrc = DBHelper.imageUrlForRestaurant(restaurant)
   imageExtension = imageSrc.slice((imageSrc.lastIndexOf(".") - 1 >>> 0) + 2);
-  imagePathWhitoutExtension = imageSrc.slice(0, imageSrc.lastIndexOf(".")) 
+  imagePathWhitoutExtension = imageSrc.slice(0, imageSrc.lastIndexOf("."));
+  
   // small image
   let source = document.createElement('source');
   source.className = 'restaurant-img';
@@ -180,6 +181,7 @@ createRestaurantHTML = (restaurant) => {
   img.alt = `Image of ${restaurant.name} restaurant`;
   picture.appendChild(img);
   li.append(picture);
+ 
 
   const name = document.createElement('h2');
   name.innerHTML = restaurant.name;
