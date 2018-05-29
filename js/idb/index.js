@@ -14,7 +14,7 @@ var dbPromise = idb.open('restaurantDB', 7, function(upgradeDb){
 
   
 dbPromise.then(db => {
-    DBHelper.fetchRestaurants((error, restaurants) => {
+    DBHelper.fetchRestaurantsFromServer((error, restaurants) => {
         restaurants.forEach(function(rest){
             var tx = db.transaction('restaurants', 'readwrite');
             var keyValStore = tx.objectStore('restaurants');

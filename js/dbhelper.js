@@ -18,12 +18,28 @@ class DBHelper {
   }
 
   /**
-   * Fetch all restaurants.
+   * Fetch all restaurants from server.
    */
-  static fetchRestaurants(callback) {
+  static fetchRestaurantsFromServer(callback) {
     fetch(`${DBHelper.DATABASE_URL}/restaurants`)
       .then(response => response.json())
+      // .then(response => console.dir(response))
       .then(restaurants => callback(null, restaurants));
+  }
+
+  /**
+   * Fetch all restaurants from idb
+   */
+  static fetchRestaurants(callback) {
+
+    var dbPromise = idb.open('restaurantDB');
+
+    dbPromise.then(function(db) {
+      var tx = db.transaction('restaurants', 'readonly');
+      var store = tx.objectStore('restaurants');
+      return store.getAll();
+    }).then(restaurants => callback(null, restaurants));
+    
   }
 
   /**
