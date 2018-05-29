@@ -7,20 +7,18 @@ var markers = []
 /**
  * Register the service worker
  */
-// if (navigator.serviceWorker){
-//   navigator.serviceWorker.register('sw.js').then(function(){
-//     console.log('Registration worked!');
-//     }).catch(function(){
-//     console.log('Registration failed!');
-//   });
-// }
+if (navigator.serviceWorker){
+  navigator.serviceWorker.register('sw.js').then(function(){
+    console.log('Registration worked!');
+    }).catch(function(){
+    console.log('Registration failed!');
+  });
+}
 
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {
-  console.log("aqui");
-  // debugger;
   fetchNeighborhoods();
   fetchCuisines();
 });
@@ -29,7 +27,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
  * Fetch all neighborhoods and set their HTML.
  */
 fetchNeighborhoods = () => {
-  // debugger;
   DBHelper.fetchNeighborhoods((error, neighborhoods) => {
     if (error) { // Got an error
       console.error(error);
@@ -139,7 +136,7 @@ resetRestaurants = (restaurants) => {
  * Create all restaurants HTML and add them to the webpage.
  */
 fillRestaurantsHTML = (restaurants = self.restaurants) => {
-  console.log(restaurants);
+  // console.log(restaurants);
   const ul = document.getElementById('restaurants-list');
   restaurants.forEach(restaurant => {
     ul.setAttribute('aria-label', `List of restaurants`)
