@@ -1,4 +1,4 @@
-const staticCacheName = 'restaurant-review-v31';
+const staticCacheName = 'restaurant-review-v32';
 
 self.addEventListener('install', function(event){
   event.waitUntil(
@@ -43,7 +43,10 @@ self.addEventListener('install', function(event){
         'img/9_800.jpg',
         'img/10_350.jpg',
         'img/10_700.jpg',
-        'img/10_800.jpg'
+        'img/10_800.jpg',
+        'img/nia_350.jpg',
+        'img/nia_700.jpg',
+        'img/nia_800.jpg'
       ]);
     })
   );
