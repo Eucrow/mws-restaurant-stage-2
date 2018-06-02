@@ -12,6 +12,22 @@ var UglifyJS = require("uglify-es");
 var composer = require('gulp-uglify/composer');
 var minify = composer(UglifyJS, console);
 // var uglify = require('gulp-uglify');
+let cleanCSS = require('gulp-clean-css');
+var htmlmin = require('gulp-htmlmin');
+
+// Minify html
+gulp.task('minify-html', function() {
+  return gulp.src('./*.html')
+    .pipe(htmlmin({collapseWhitespace: true}))
+    .pipe(gulp.dest('dist'));
+});
+
+// Minify css
+gulp.task('minify-css', () => {
+  return gulp.src('./css/*.css')
+    .pipe(cleanCSS())
+    .pipe(gulp.dest('dist/css'));
+});
 
 // Concat
 gulp.task('scripts', gulp.series(function(){
@@ -21,10 +37,11 @@ gulp.task('scripts', gulp.series(function(){
                     './js/sw_register.js'])
         .pipe(concat('db.js'))
         .pipe(gulp.dest('dist/js'));
-}))
+        })
+)
 
 // Concat to distribution (contain minification)
-gulp.task('scripts-dist', gulp.series(function(){
+gulp.task('scripts-dist', gulp.series('minify-css', 'minify-html', function(){
     return gulp.src(['./js/idb.js',
                     './js/dbhelper.js',
                     './js/idbmain.js',
@@ -33,30 +50,42 @@ gulp.task('scripts-dist', gulp.series(function(){
         .pipe(minify())
         // .pipe(uglify()) // minify
         .pipe(gulp.dest('dist/js'));
-}))
-// Copy index.html, restaurant.html and sw.js to dist directory
-gulp.task('copy-files-1', function(...args){
-    return gulp.src(['./index.html', 'restaurant.html', 'sw.js'])
+    })
+)
+// Copy manifest.json and sw.js to dist directory
+gulp.task('copy-files-1', function(){
+    return gulp.src(['manifest.json', 'sw.js'])
         .pipe(gulp.dest('./dist'));
 })
 
+
 // Copy main.js and restaurant_info.js to dist directory
-gulp.task('copy-files-2', function(...args){
+gulp.task('copy-files-2', function(){
     return gulp.src(['./js/main.js', './js/restaurant_info.js'])
         .pipe(gulp.dest('./dist/js'));
 })
+
+// Copy icons to img directory
+gulp.task('copy-icons', function(){
+    return gulp.src(['./icon_192.png', './icon_512.png'])
+        .pipe(gulp.dest('./dist/img'));
+})
+
 
 // Default task
 gulp.task('default', gulp.series(
     'scripts',
     'copy-files-1',
-    'copy-files-2'));
+    'copy-files-2',
+    'copy-icons'));
+
 
 // Default task to distribution
 gulp.task('default-dist', gulp.series(
     'scripts-dist',
     'copy-files-1',
-    'copy-files-2'));
+    'copy-files-2',
+    'copy-icons'));
 
 
 // Static Server + watching scss/html files
@@ -72,6 +101,7 @@ gulp.task('serve', gulp.series(function() {
     gulp.watch("*.html").on('change', browserSync.reload);
     gulp.watch("**/*.js").on('change', browserSync.reload);
     gulp.watch("**/*.css").on("change", browserSync.reload);
+    gulp.watch("manifest.json").on("change", browserSync.reload);
 }));
 
 // optimización de imágenes de usuario para responsive
