@@ -18,7 +18,7 @@ var htmlmin = require('gulp-htmlmin');
 // Minify html
 gulp.task('minify-html', function() {
   return gulp.src('./*.html')
-    .pipe(htmlmin({collapseWhitespace: true}))
+    .pipe(htmlmin({collapseWhitespace: true, removeComments: true}))
     .pipe(gulp.dest('dist'));
 });
 
@@ -44,8 +44,7 @@ gulp.task('scripts', gulp.series(function(){
 gulp.task('scripts-dist', gulp.series('minify-css', 'minify-html', function(){
     return gulp.src(['./js/idb.js',
                     './js/dbhelper.js',
-                    './js/idbmain.js',
-                    './js/sw_register.js'])
+                    './js/idbmain.js'])
         .pipe(concat('db.js'))
         .pipe(minify())
         // .pipe(uglify()) // minify

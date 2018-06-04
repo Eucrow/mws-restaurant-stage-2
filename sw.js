@@ -1,4 +1,4 @@
-const staticCacheName = 'restaurant-review-v43';
+const staticCacheName = 'restaurant-review-v48';
 
 self.addEventListener('install', function(event){
   event.waitUntil(
@@ -6,13 +6,14 @@ self.addEventListener('install', function(event){
       return cache.addAll([
         'index.html',
         'restaurant.html',
-        // 'sw.js', // The service worker itself musn't be cached
+        'manifest.json',
+        'js/db.js',
         'js/main.js',
-        // 'js/dbhelper.js',
         'js/restaurant_info.js',
+        // 'sw.js', // The service worker itself musn't be cached
+        // 'js/dbhelper.js',
         // 'js/idb.js',
         // 'js/idb/index.js',
-        'js/db.js',
         'css/styles.css',
         // 'data/restaurants.json',
         'img/1_350.jpg',
