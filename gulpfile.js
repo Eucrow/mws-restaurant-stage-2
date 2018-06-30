@@ -72,6 +72,11 @@ gulp.task('copy-icons', function(){
         .pipe(gulp.dest('./dist/img'));
 })
 
+// Copy html to dist directory
+gulp.task('copy-html', function(){
+    return gulp.src(['./index.html', './restaurant.html'])
+        .pipe(gulp.dest('./dist'));
+})
 
 // Default task
 gulp.task('default', gulp.series(
@@ -93,7 +98,8 @@ gulp.task('default-dist', gulp.series(
 gulp.task('serve', gulp.series(function() {
 
     browserSync.init({
-        server: "./dist",
+        // server: "./dist",
+        server: "./",
         port: 8000,
         browser: 'chrome'
     });
