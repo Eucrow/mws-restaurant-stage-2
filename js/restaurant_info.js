@@ -171,17 +171,16 @@ formReviewHTML = (restaurant) => {
   comment.setAttribute('rows', '10');
   formReview.appendChild(comment);
 
-  const score = document.createElement("select");
-  score.setAttribute('name', 'score');
-
-  for(i=0; i>=5; i++) {
-    const opt = document.createElement("option");
-    opt.setAttribute("value", i);
-    opt.innerHTML = i;
-    score.appendChild(opt);
+  
+  var i;
+  for(i=1; i<=5; i++) {
+    const rating = document.createElement("input");
+    rating.setAttribute('type', 'radio');
+    rating.setAttribute('name', 'rating');
+    rating.setAttribute('value', i);
+    rating.innerHTML = i;
+    formReview.appendChild(rating);
   }
-
-  formReview.appendChild(score);
 
   const submitField = document.createElement("input");
   submitField.setAttribute('type', 'submit');
