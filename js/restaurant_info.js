@@ -159,7 +159,7 @@ formReviewHTML = (restaurant) => {
   // const formReview = document.createElement("form")
   // formReview.setAttribute('method', 'post');
   // formReview.setAttribute('action', 'submit');
-  formReview = getElementById("reviews-form");
+
 
   const reviewer = document.createElement("input");
   reviewer.setAttribute('type', 'text');
@@ -186,7 +186,6 @@ formReviewHTML = (restaurant) => {
   const submitField = document.createElement("input");
   submitField.setAttribute('type', 'submit');
   submitField.setAttribute('value', 'submit');
-  formReview.appendChild(submitField);
 
   return formReview;
 } 
@@ -200,8 +199,8 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   title.innerHTML = 'Reviews';
   container.appendChild(title);
 
-  
-  container.appendChild(formReview);
+  formReview = document.getElementById("reviews-form");
+  container.appendChild(formReviewHTML(reviews));
 
 
   if (!reviews) {
