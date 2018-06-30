@@ -33,8 +33,10 @@ gulp.task('minify-css', () => {
 gulp.task('scripts', gulp.series(function(){
     return gulp.src(['./js/idb.js',
                     './js/dbhelper.js',
-                    './js/idbmain.js',
-                    './js/sw_register.js'])
+                    './js/idbmain.js'
+                    // ,
+                    // './js/sw_register.js'
+                ])
         .pipe(concat('db.js'))
         .pipe(gulp.dest('dist/js'));
         })
