@@ -4,13 +4,13 @@ var map;
 /**
  * Register the service worker
  */
-if (navigator.serviceWorker){
-  navigator.serviceWorker.register('sw.js').then(function(){
-    console.log('Registration worked!');
-    }).catch(function(){
-    console.log('Registration failed!');
-  });
-}
+// if (navigator.serviceWorker){
+//   navigator.serviceWorker.register('sw.js').then(function(){
+//     console.log('Registration worked!');
+//     }).catch(function(){
+//     console.log('Registration failed!');
+//   });
+// }
 
 /**
  * Initialize Google map, called from HTML.
@@ -150,6 +150,46 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
   }
 }
 
+
+/**
+ * Create form to add review
+ */
+
+formReviewHTML = (restaurant) => {
+  // const formReview = document.createElement("form")
+  // formReview.setAttribute('method', 'post');
+  // formReview.setAttribute('action', 'submit');
+
+
+  const reviewer = document.createElement("input");
+  reviewer.setAttribute('type', 'text');
+  formReview.appendChild(reviewer);
+
+  const comment = document.createElement("textarea");
+  comment.setAttribute('name', 'comment');
+  comment.setAttribute('cols', '30');
+  comment.setAttribute('rows', '10');
+  formReview.appendChild(comment);
+
+  const score = document.createElement("select");
+  score.setAttribute('name', 'score');
+
+  for(i=0; i>=5; i++) {
+    const opt = document.createElement("option");
+    opt.setAttribute("value", i);
+    opt.innerHTML = i;
+    score.appendChild(opt);
+  }
+
+  formReview.appendChild(score);
+
+  const submitField = document.createElement("input");
+  submitField.setAttribute('type', 'submit');
+  submitField.setAttribute('value', 'submit');
+
+  return formReview;
+} 
+
 /**
  * Create all reviews HTML and add them to the webpage.
  */
@@ -158,6 +198,10 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   const title = document.createElement('h3');
   title.innerHTML = 'Reviews';
   container.appendChild(title);
+
+  formReview = document.getElementById("reviews-form");
+  container.appendChild(formReviewHTML(reviews));
+
 
   if (!reviews) {
     const noReviews = document.createElement('p');
