@@ -155,15 +155,40 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
  * Create form to add review
  */
 
-formReviewHTML = (restaurant) => {
-  // const formReview = document.createElement("form")
-  // formReview.setAttribute('method', 'post');
-  // formReview.setAttribute('action', 'submit');
+/**
+ * remove the higlight in all the elements (stars) of rating
+ */
+unlightRating = (e) => {
+  for(var r=0; r<e.length; r++){
+    e[r].classList.remove('rating-radio_highlight');
+  }
+}
 
+/**
+ * Higlight an element (star) of the rating
+ */
+higlightElement = (e) => {
+  const elem = document.getElementById(e);
+  elem.classList.add('rating-radio_highlight');
+}
+
+formReviewHTML = (restaurant) => {
+  const formReview = document.createElement("form")
+  formReview.setAttribute('method', 'post');
+  formReview.setAttribute('action', 'submit');
+  formReview.classList.add('form-rating');
+
+  let textName = document.createElement("p");
+  textName.innerHTML = 'Name:';
+  formReview.appendChild(textName);
 
   const reviewer = document.createElement("input");
   reviewer.setAttribute('type', 'text');
   formReview.appendChild(reviewer);
+
+  const textComment = document.createElement("p");
+  textComment.innerHTML = 'Comment:';
+  formReview.appendChild(textComment);
 
   const comment = document.createElement("textarea");
   comment.setAttribute('name', 'comment');
@@ -171,20 +196,68 @@ formReviewHTML = (restaurant) => {
   comment.setAttribute('rows', '10');
   formReview.appendChild(comment);
 
+  const  ratingContainer = document.createElement("div");
+  ratingContainer.classList.add('rating-container');
   
-  var i;
-  for(i=1; i<=5; i++) {
-    const rating = document.createElement("input");
-    rating.setAttribute('type', 'radio');
-    rating.setAttribute('name', 'rating');
-    rating.setAttribute('value', i);
-    rating.innerHTML = i;
-    formReview.appendChild(rating);
+  let itemHighlight;
+  
+  for(var i=1; i<=5; i++) {
+    const cont = i;
+    const ratingInput = document.createElement("input");
+    ratingInput.setAttribute('type', 'radio');
+    ratingInput.setAttribute('name', 'rating');
+    ratingInput.setAttribute('value', i);
+    ratingInput.setAttribute('id', 'r'+i);
+    
+    ratingInput.classList.add('rating-input');
+    ratingContainer.appendChild(ratingInput);
+
+    const ratingLabel = document.createElement("label");
+    ratingLabel.setAttribute('for', 'r'+i);
+    ratingLabel.setAttribute('id', 'star'+i);
+    ratingLabel.classList.add("rating-radio");
+
+    
+    ratingLabel.onclick = function(){
+      const allElements = document.getElementsByClassName("rating-radio");
+      unlightRating(allElements);
+      
+      for(var t=1; t<=cont; t++){
+        higlightElement('star'+t)
+      }
+
+      itemHighlight = cont;
+      
+    }
+
+    ratingLabel.onmouseover = function(){
+      const allElements = document.getElementsByClassName("rating-radio");
+      unlightRating(allElements);
+      
+      for(var t=1; t<=cont; t++){
+        higlightElement('star'+t);
+      }
+      
+    }
+
+    ratingLabel.onmouseout = function(){
+      const allElements = document.getElementsByClassName("rating-radio");
+      unlightRating(allElements);
+      
+      for(var t=1; t<=itemHighlight; t++){
+        higlightElement('star'+t);
+      }
+      
+    }
+
+    ratingContainer.appendChild(ratingLabel);    
   }
+  formReview.appendChild(ratingContainer);
 
   const submitField = document.createElement("input");
   submitField.setAttribute('type', 'submit');
   submitField.setAttribute('value', 'submit');
+  formReview.appendChild(submitField);
 
   return formReview;
 } 
@@ -198,9 +271,8 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   title.innerHTML = 'Reviews';
   container.appendChild(title);
 
-  formReview = document.getElementById("reviews-form");
+  formReview = formReviewHTML(reviews);
   container.appendChild(formReviewHTML(reviews));
-
 
   if (!reviews) {
     const noReviews = document.createElement('p');

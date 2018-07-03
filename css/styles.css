@@ -339,6 +339,40 @@ box-shadow: 0px 0px 4px 3px rgba(31, 87, 124,0.75);
       margin: 10px 0;
     }
 
+      /* ============ Rating ============ */
+
+      .form-rating{
+        display: block;
+        padding-left: 10px;
+      }
+      .form-rating p{
+        line-height: 1;
+        margin: 0.1rem;
+      }
+
+      .rating-container{
+        display: block;
+      }
+
+      .rating-radio{
+        width: 24px;
+        height: 24px;
+        cursor:pointer;
+        background-size:contain;
+        background-repeat:no-repeat;
+        display:inline-block;
+        background-image: url(../img/star_normal.svg);
+      }
+
+      .rating-radio_highlight{
+        background-image: url(../img/star_highlight.svg);
+      }
+
+      .rating-input{
+        visibility: hidden;
+        position: absolute;
+      }
+
 /* ====================== Media Queries ====================== */
 @media screen and (min-width: 700px) {
   .filter-options{
