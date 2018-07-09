@@ -28,6 +28,15 @@ class DBHelper {
   }
 
   /**
+   * Fetch reviews by restaurant from server. Creada por mi, no se si funciona
+   */
+
+  static fetchReviewsByRestaurantId(restaurantId){
+    return fetch(`${DBHelper.DATABASE_URL}/reviews/?restaurant_id=${restaurantId}`)
+      .then(response => response.json())
+  }
+
+  /**
    * Fetch all restaurants from idb
    */
   static fetchRestaurants(callback) {
