@@ -4,7 +4,7 @@ if (!('indexedDB' in window)) {
   }
 
 
-var dbPromise = idb.open('restaurantDB', 7, function(upgradeDb){
+var dbPromise = idb.open('restaurantDB', 8, function(upgradeDb){
     if (!upgradeDb.objectStoreNames.contains('restaurants')){
         var restaurantStore = upgradeDb.createObjectStore('restaurants', {
             keyPath: 'id'

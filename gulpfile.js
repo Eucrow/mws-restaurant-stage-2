@@ -33,7 +33,7 @@ gulp.task('minify-css', () => {
 gulp.task('scripts', gulp.series(function(){
     return gulp.src(['./js/idb.js',
                     './js/dbhelper.js',
-                    './js/idbmain.js'
+                    './js/idb_main.js'
                     // ,
                     // './js/sw_register.js'
                 ])
@@ -46,7 +46,7 @@ gulp.task('scripts', gulp.series(function(){
 gulp.task('scripts-dist', gulp.series('minify-css', 'minify-html', function(){
     return gulp.src(['./js/idb.js',
                     './js/dbhelper.js',
-                    './js/idbmain.js'])
+                    './js/idb_main.js'])
         .pipe(concat('db.js'))
         .pipe(minify())
         // .pipe(uglify()) // minify

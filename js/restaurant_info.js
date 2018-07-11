@@ -4,13 +4,13 @@ var map;
 /**
  * Register the service worker
  */
-// if (navigator.serviceWorker){
-//   navigator.serviceWorker.register('sw.js').then(function(){
-//     console.log('Registration worked!');
-//     }).catch(function(){
-//     console.log('Registration failed!');
-//   });
-// }
+if (navigator.serviceWorker){
+  navigator.serviceWorker.register('sw.js').then(function(){
+    console.log('Registration worked!');
+    }).catch(function(){
+    console.log('Registration failed!');
+  });
+}
 
 /**
  * Initialize Google map, called from HTML.
@@ -175,6 +175,7 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
     elem.classList.add('rating-radio_highlight');
   }
 
+
   fillFormReview = (restaurant_id) => {
     const formReview = document.getElementById('form-review');
 
@@ -273,11 +274,12 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
     return formReview;
   } 
 
+
 /**
  * Create all reviews HTML and add them to the webpage.
  */
 fillReviews = () => {
-  DBHelper.fetchReviewsByRestaurantId(self.restaurant.id)
+  DBHelper.fetchReviewsByRestaurantFromServer(self.restaurant.id)
     // .then(reviews => (console.log(reviews)))
     .then(reviews => fillReviewsHTML(reviews))
     .catch((err) => {

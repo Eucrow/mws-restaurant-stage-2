@@ -26,16 +26,6 @@ class DBHelper {
       // .then(response => console.dir(response))
       .then(restaurants => callback(null, restaurants));
   }
-
-  /**
-   * Fetch reviews by restaurant from server. Creada por mi, no se si funciona
-   */
-
-  static fetchReviewsByRestaurantId(restaurantId){
-    return fetch(`${DBHelper.DATABASE_URL}/reviews/?restaurant_id=${restaurantId}`)
-      .then(response => response.json())
-  }
-
   /**
    * Fetch all restaurants from idb
    */
@@ -49,6 +39,23 @@ class DBHelper {
       return store.getAll();
     }).then(restaurants => callback(null, restaurants));
     
+  }
+
+  /**
+   * Fetch al reviews from server
+   */
+  static fetchReviewsFromServer(callback){
+    fetch(`${DBHelper.DATABASE_URL}/reviews`)
+    .then(response => response.json())
+    .then(restaurants => callback(null, restaurants));
+  }
+
+  /**
+   * Fetch all the reviews of a restaurant from server.
+   */
+  static fetchReviewsByRestaurantFromServer(restaurantId){
+    return fetch(`${DBHelper.DATABASE_URL}/reviews/?restaurant_id=${restaurantId}`)
+      .then(response => response.json())
   }
 
   /**
