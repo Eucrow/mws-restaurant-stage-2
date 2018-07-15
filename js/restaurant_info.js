@@ -4,13 +4,30 @@ var map;
 /**
  * Register the service worker
  */
-if (navigator.serviceWorker){
-  navigator.serviceWorker.register('sw.js').then(function(){
-    console.log('Registration worked!');
-    }).catch(function(){
-    console.log('Registration failed!');
-  });
+
+if (navigator.serviceWorker) {
+  navigator.serviceWorker
+    .register('sw.js')
+    .then(registration => navigator.serviceWorker.ready)
+    .then(() => {
+      console.log('Registration worked!!');
+    });
+    // .then(registration => { // register sync
+    //   document.getElementById('requestButton').addEventListener('click', () => {
+    //     registration.sync.register('image-fetch').then(() => {
+    //         console.log('Sync registered');
+    //     });
+    //   });
+    // });
 }
+
+// if (navigator.serviceWorker){
+//   navigator.serviceWorker.register('sw.js').then(function(){
+//     console.log('Registration worked!');
+//     }).catch(function(){
+//     console.log('Registration failed!');
+//   });
+// }
 
 /**
  * Initialize Google map, called from HTML.
@@ -252,6 +269,7 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
         
       }
 
+      
       ratingLabel.onmouseout = function(){
         const allElements = document.getElementsByClassName("rating-radio");
         unlightRating(allElements);
@@ -269,11 +287,21 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
     const submitField = document.createElement("input");
     submitField.setAttribute('type', 'submit');
     submitField.setAttribute('value', 'submit review');
+    submitField.setAttribute('id', 'submit-review');
+
+    
+    submitField.addEventListener('click', () => {
+      navigator.serviceWorker.ready.then(function(reg) {
+        reg.sync.register('review-submission');
+        console.log ('Sync registered!!')
+      });
+    })
+
     formReview.appendChild(submitField);
+
 
     return formReview;
   } 
-
 
 /**
  * Create all reviews HTML and add them to the webpage.

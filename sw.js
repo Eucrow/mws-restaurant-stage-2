@@ -1,4 +1,6 @@
-const staticCacheName = 'restaurant-review-v65';
+
+const staticCacheName = 'restaurant-review-v77';
+
 
 self.addEventListener('install', function(event){
   event.waitUntil(
@@ -104,4 +106,24 @@ self.addEventListener('fetch', function(event){
   // );
   
 
+});
+
+
+var testingWaitUntil = () => {
+  fetchReviewsFromIDB();
+  // debugger;
+  console.log("Inside waitUntil");
+  
+  // console.log(prueba);
+
+
+
+  console.log("inside fetchReviewsFromIDB");
+}
+
+self.addEventListener('sync', function (event) {
+  if (event.tag === 'review-submission') {
+    // console.log (event);
+    event.waitUntil(testingWaitUntil())
+  }
 });

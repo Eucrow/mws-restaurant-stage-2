@@ -1,10 +1,7 @@
 window.onload = function () {
 
-    // const reload_reviews_event = new CustomEvent("reload_reviews_event", {
-    //     detail: {
-    //       hazcheeseburger: true
-    //     }
-    //   });    
+ 
+
     const reload_reviews_event = new Event("reload_reviews_event"); 
 
     const form = document.getElementById('form-review');

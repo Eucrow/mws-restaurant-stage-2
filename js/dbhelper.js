@@ -42,7 +42,7 @@ class DBHelper {
   }
 
   /**
-   * Fetch al reviews from server
+   * Fetch all reviews from server
    */
   static fetchReviewsFromServer(callback){
     fetch(`${DBHelper.DATABASE_URL}/reviews`)
@@ -51,12 +51,24 @@ class DBHelper {
   }
 
   /**
-   * Fetch all the reviews of a restaurant from server.
+   * Fetch all reviews of a restaurant from server.
    */
   static fetchReviewsByRestaurantFromServer(restaurantId){
     return fetch(`${DBHelper.DATABASE_URL}/reviews/?restaurant_id=${restaurantId}`)
       .then(response => response.json())
   }
+
+
+  /**
+   * Fetch all reviews from indexedDb
+   */
+   static fetchReviewsFromIDB(){
+     return dbPromise.then(function(db){
+       var tx = db.transaction('reviews', 'readwrite');
+       var store = tx.objectStore('reviews');
+       console.log ("Retrieved all reviews");
+     })
+   }
 
   /**
    * Fetch a restaurant by its ID.
