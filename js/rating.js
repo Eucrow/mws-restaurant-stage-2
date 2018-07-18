@@ -25,7 +25,7 @@ window.onload = function () {
             })
             // .then(response => console.log(response))
             // .then(fillReviews())
-            // .then(form.reset())
+            .then(form.reset())
             // .catch(e => console.log(e));
         });
         

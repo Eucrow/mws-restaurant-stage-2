@@ -110,13 +110,16 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
     fillRestaurantHoursHTML();
   }
 
-  // fill form to add review
-  fillFormReview(restaurant.id);
-  // fill reviews
+  // reviews
   const container = document.getElementById('reviews-container');
   const title = document.createElement('h3');
   title.innerHTML = 'Reviews';
   container.appendChild(title);
+
+  // fill form to add review
+  fillFormReview(restaurant.id);
+
+  // fill all reviews
   fillReviews();
 }
 
@@ -158,121 +161,211 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
   }
 }
 
-  /**
-   * remove the higlight in all the elements (stars) of rating
-   */
-  unlightRating = (e) => {
-    for(var r=0; r<e.length; r++){
-      e[r].classList.remove('rating-radio_highlight');
-    }
-  }
+  // /**
+  //  * remove the higlight in all the elements (stars) of rating
+  //  */
+  // unlightRating = (e) => {
+  //   for(var r=0; r<e.length; r++){
+  //     // e[r].classList.remove('rating-radio_highlight');
+  //     e[r].setAttribute('src', '../img/star_normal.svg');
+  //   }
+  // }
 
-  /**
-   * Higlight an element (star) of the rating
-   */
-  higlightElement = (e) => {
-    const elem = document.getElementById(e);
-    elem.classList.add('rating-radio_highlight');
-  }
+  // /**
+  //  * Higlight an element (star) of the rating
+  //  */
+  // higlightRating = (e) => {
+  //   const elem = document.getElementById(e);
+  //   // elem.classList.add('rating-radio_highlight');
+  //   // debugger;
+  //   elem.setAttribute('src', '../img/star_highlight.svg');
+  // }
 
 
-  fillFormReview = (restaurant_id) => {
-    const formReview = document.getElementById('form-review');
+  // fillFormReview = (restaurant_id) => {
 
-    const restaurantId = document.createElement("input");
-    restaurantId.setAttribute('type', 'hidden');
-    restaurantId.setAttribute('value', restaurant_id);
-    restaurantId.setAttribute('name', 'restaurant_id');
-    restaurantId.setAttribute('id', 'restaurant_id');
-    formReview.appendChild(restaurantId);
+  //   const formReview = document.getElementById('form-review');
 
-    const textName = document.createElement("p");
-    textName.innerHTML = 'Name:';
-    formReview.appendChild(textName);
+  //   const titleFormReview = document.createElement("h3");
+  //   titleFormReview.innerHTML = "Send your own review:";
+  //   titleFormReview.setAttribute('id', 'title-form-review');
+  //   formReview.appendChild(titleFormReview);
 
-    const reviewer = document.createElement("input");
-    reviewer.setAttribute('type', 'text');
-    reviewer.setAttribute('name', 'name');
-    reviewer.setAttribute('required', '');
-    formReview.appendChild(reviewer);
+  //   const restaurantId = document.createElement("input");
+  //   restaurantId.setAttribute('type', 'hidden');
+  //   restaurantId.setAttribute('value', restaurant_id);
+  //   restaurantId.setAttribute('name', 'restaurant_id');
+  //   restaurantId.setAttribute('id', 'restaurant_id');
+  //   formReview.appendChild(restaurantId);
 
-    const textComment = document.createElement("p");
-    textComment.innerHTML = 'Comment:';
-    formReview.appendChild(textComment);
+  //   const reviewerLabel = document.createElement("label");
+  //   reviewerLabel.setAttribute('for', 'name');
+  //   reviewerLabel.innerHTML = 'Name: ';
+  //   formReview.appendChild(reviewerLabel);
 
-    const comment = document.createElement("textarea");
-    comment.setAttribute('name', 'comments');
-    comment.setAttribute('cols', '30');
-    comment.setAttribute('rows', '10');
-    comment.setAttribute('required', '');
-    formReview.appendChild(comment);
+  //   const reviewer = document.createElement("input");
+  //   reviewer.setAttribute('type', 'text');
+  //   reviewer.setAttribute('name', 'name');
+  //   reviewer.setAttribute('id', 'name');
+  //   reviewer.setAttribute('required', '');
+  //   formReview.appendChild(reviewer);
 
-    const  ratingContainer = document.createElement("div");
-    ratingContainer.classList.add('rating-container');
+  //   const commentLabel = document.createElement("label");
+  //   commentLabel.setAttribute('for', 'comment');
+  //   commentLabel.innerHTML = 'Comment: ';
+  //   formReview.appendChild(commentLabel);
+
+  //   const comment = document.createElement("textarea");
+  //   comment.setAttribute('name', 'comments');
+  //   comment.setAttribute('id', 'comments');
+  //   comment.setAttribute('cols', '30');
+  //   comment.setAttribute('rows', '10');
+  //   comment.setAttribute('required', '');
+  //   formReview.appendChild(comment);
     
-    let itemHighlight;
+  //   // rating with stars
+  //   const rating = document.createElement("input");
+  //   rating.setAttribute('type', 'hidden');
+  //   rating.setAttribute('name', 'rating');
+  //   rating.setAttribute('id', 'rating');
+  //   formReview.appendChild(rating);
+
+  //   const ratingLabel = document.createElement('label');
+  //   ratingLabel.setAttribute('for', 'rating-container');
+  //   ratingLabel.innerHTML = "Rate restaurant: "
+  //   formReview.appendChild(ratingLabel);
+
+  //   const ratingContainer = document.createElement("div");
+  //   ratingContainer.setAttribute('id', 'rating-container');
+  //   ratingContainer.setAttribute('role', 'radiogroup');
+  //   ratingContainer.setAttribute('aria-labelledby', 'title-form-review');
+  //   ratingContainer.classList.add('rating-container');
+  //   console.log(ratingContainer)
+
+  //   //     // Define values for keycodes
+  //   var VK_ENTER      = 13;
+  //   var VK_SPACE      = 32;
+  //   var VK_LEFT       = 37;
+  //   var VK_UP         = 38;
+  //   var VK_RIGHT      = 39;
+  //   var VK_DOWN       = 40;
     
-    for(var i=1; i<=5; i++) {
-      const cont = i;
-      const ratingInput = document.createElement("input");
-      ratingInput.setAttribute('type', 'radio');
-      ratingInput.setAttribute('name', 'rating');
-      ratingInput.setAttribute('value', i);
-      ratingInput.setAttribute('id', 'r'+i);
-      ratingInput.setAttribute('required', '');
-    
+  //   const handleKeyDown = function(e) {
+  //     console.log(e);
+  //     switch(e.keyCode) {
+        
+  //       case VK_UP:
+  //       case VK_LEFT: {
+          
+  //         e.preventDefault();
+          
+  //         this.focusedIdx--;
+  //         if (this.focusedIdx < 0)
+  //         this.focusedIdx = this.focusedIdx + this.buttons.length;
+          
+  //         break;
+  //       }
+        
+  //       case VK_DOWN:
+  //       case VK_RIGHT: {
+          
+  //         e.preventDefault();
+          
+  //         this.focusedIdx = (this.focusedIdx + 1) % this.buttons.length;
+          
+  //         break;
+  //       }
+  
+  //       case VK_SPACE:
+  //         var focusedButton = e.target;
+  //         var idx = this.buttons.indexOf(focusedButton);
+  //         if (idx < 0)
+  //         return;
+  //         this.focusedIdx = idx;
+  //         break;
+          
+  //         default:
+  //         return;
+  //       }
+        
+  //       // this.changeFocus();
+  //     };
       
-      ratingInput.classList.add('rating-input');
-      ratingContainer.appendChild(ratingInput);
-
-      const ratingLabel = document.createElement("label");
-      ratingLabel.setAttribute('for', 'r'+i);
-      ratingLabel.setAttribute('id', 'star'+i);
-      ratingLabel.classList.add("rating-radio");
+  //     ratingContainer.addEventListener('keydown', handleKeyDown.bind(this));
+  //     // ratingContainer.addEventListener('click', handleClick(this));
       
-      ratingLabel.onclick = function(){
-        const allElements = document.getElementsByClassName("rating-radio");
-        unlightRating(allElements);
-        
-        for(var t=1; t<=cont; t++){
-          higlightElement('star'+t)
-        }
+  //     let itemHighlight;
+      
+  //   for(var i=1; i<=5; i++) {
+  //     const cont = i;
+  //     const ratingInput = document.createElement("img");
+  //     ratingInput.setAttribute('src', '../img/star_normal.svg');
+  //     ratingInput.setAttribute('role', 'radio');
+  //     ratingInput.setAttribute('tabindex', '0');
+  //     // i == 1? ratingInput.setAttribute('tabindex', '0') : ratingInput.setAttribute('tabindex', '-1');
 
-        itemHighlight = cont;
-        
-      }
+  //     ratingInput.setAttribute('alt', i+' star');
+  //     ratingInput.setAttribute('name', 'rate'+i);
+  //     ratingInput.setAttribute('id', 'r'+i);
+  //     ratingInput.setAttribute('aria-checked', 'false');
+  //     ratingInput.classList.add('test-rating-radio');
+      
+  //     ratingInput.onclick = function(){
+  //       const allElements = document.getElementsByClassName("test-rating-radio");
+  //       unlightRating(allElements);
 
-      ratingLabel.onmouseover = function(){
-        const allElements = document.getElementsByClassName("rating-radio");
-        unlightRating(allElements);
-        
-        for(var t=1; t<=cont; t++){
-          higlightElement('star'+t);
-        }
-        
-      }
+  //       for(var t=1; t<=cont; t++){
+  //         higlightRating('r'+t);
+  //       }
 
-      ratingLabel.onmouseout = function(){
-        const allElements = document.getElementsByClassName("rating-radio");
-        unlightRating(allElements);
+  //       itemHighlight = cont;
         
-        for(var t=1; t<=itemHighlight; t++){
-          higlightElement('star'+t);
-        }
+  //       const ratingValue = document.getElementById('rating')
+  //       ratingValue.setAttribute('value', itemHighlight);
+
+  //       ratingElements = document.getElementsByClassName('test-rating-radio');
+  //       for (el of ratingElements){
+  //         el.setAttribute('aria-checked', 'false');
+  //       }
         
-      }
 
-      ratingContainer.appendChild(ratingLabel);    
-    }
-    formReview.appendChild(ratingContainer);
+  //       this.setAttribute('aria-checked', 'true');
 
-    const submitField = document.createElement("input");
-    submitField.setAttribute('type', 'submit');
-    submitField.setAttribute('value', 'submit review');
-    formReview.appendChild(submitField);
+  //     }
 
-    return formReview;
-  } 
+  //     ratingInput.onmouseover = function(){
+  //       const allElements = document.getElementsByClassName("test-rating-radio");
+  //       unlightRating(allElements);
+        
+  //       for(var t=1; t<=cont; t++){
+  //         higlightRating('r'+t);
+  //       }
+        
+  //     }
+
+  //     ratingInput.onmouseout = function(){
+  //       const allElements = document.getElementsByClassName("test-rating-radio");
+  //       unlightRating(allElements);
+        
+  //       for(var t=1; t<=itemHighlight; t++){
+  //         higlightRating('r'+t);
+  //       }
+        
+  //     }
+
+  //     ratingContainer.appendChild(ratingInput);
+
+  //   }
+  //   formReview.appendChild(ratingContainer);
+
+  //   const submitField = document.createElement("input");
+  //   submitField.setAttribute('type', 'submit');
+  //   submitField.setAttribute('value', 'submit review');
+  //   formReview.appendChild(submitField);
+
+  //   return formReview;
+
+  // } 
 
 
 /**
