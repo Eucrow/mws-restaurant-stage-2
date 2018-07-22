@@ -12,13 +12,6 @@ if (navigator.serviceWorker) {
     .then(() => {
       console.log('Registration worked!!');
     });
-    // .then(registration => { // register sync
-    //   document.getElementById('requestButton').addEventListener('click', () => {
-    //     registration.sync.register('image-fetch').then(() => {
-    //         console.log('Sync registered');
-    //     });
-    //   });
-    // });
 }
 
 // if (navigator.serviceWorker){
@@ -117,14 +110,14 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   address.innerHTML = restaurant.address;
 
   // fill picture
-  fillPictureRestaurant();
+  // fillPictureRestaurant();
 
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;
 
   // fill operating hours
   if (restaurant.operating_hours) {
-    fillRestaurantHoursHTML();
+    // fillRestaurantHoursHTML();
   }
 
   // fill form to add review
@@ -192,7 +185,6 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
     elem.classList.add('rating-radio_highlight');
   }
 
-
   fillFormReview = (restaurant_id) => {
     const formReview = document.getElementById('form-review');
 
@@ -256,7 +248,6 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
         }
 
         itemHighlight = cont;
-        
       }
 
       ratingLabel.onmouseover = function(){
@@ -266,9 +257,7 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
         for(var t=1; t<=cont; t++){
           higlightElement('star'+t);
         }
-        
       }
-
       
       ratingLabel.onmouseout = function(){
         const allElements = document.getElementsByClassName("rating-radio");
@@ -277,7 +266,6 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
         for(var t=1; t<=itemHighlight; t++){
           higlightElement('star'+t);
         }
-        
       }
 
       ratingContainer.appendChild(ratingLabel);    
@@ -289,13 +277,12 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
     submitField.setAttribute('value', 'submit review');
     submitField.setAttribute('id', 'submit-review');
 
-    
-    submitField.addEventListener('click', () => {
-      navigator.serviceWorker.ready.then(function(reg) {
-        reg.sync.register('review-submission');
-        console.log ('Sync registered!!')
-      });
-    })
+    // submitField.addEventListener('click', () => {
+    //   navigator.serviceWorker.ready.then(function(reg) {
+    //     reg.sync.register('review-submission');
+    //     console.log ('Sync registered!!')
+    //   });
+    // })
 
     formReview.appendChild(submitField);
 
@@ -308,13 +295,24 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
  */
 fillReviews = () => {
   DBHelper.fetchReviewsByRestaurantFromServer(self.restaurant.id)
-    // .then(reviews => (console.log(reviews)))
     .then(reviews => fillReviewsHTML(reviews))
     .catch((err) => {
       console.log(err);
      });
 }
 
+// fillReviewsOffline = () => {
+//   const revs = DBHelper.fetchReviewsByRestaurantOffline(self.restaurant.id)
+//   console.log (revs);
+//   // .then(reviews => fillReviewsHTML(reviews))
+//   // .catch((err) => {
+//   //   console.log(err);
+//   //  });
+// }
+
+// addPendingReviewToHTML = (review) => {
+//   const
+// }
 
 fillReviewsHTML = (reviews) => {
 

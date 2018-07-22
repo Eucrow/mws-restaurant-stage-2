@@ -1,5 +1,5 @@
 
-const staticCacheName = 'restaurant-review-v77';
+const staticCacheName = 'restaurant-review-v130';
 
 
 self.addEventListener('install', function(event){
@@ -10,15 +10,13 @@ self.addEventListener('install', function(event){
         'restaurant.html',
         'manifest.json',
         'js/dbhelper.js',
-        'js/idb.js',
         'js/idb_main.js',
         'js/idb_restaurant_info.js',
+        'js/idb.js',
         'js/main.js',
         'js/rating.js',
         'js/restaurant_info.js',
-        // 'js/db.js',
         // 'sw.js', // The service worker itself musn't be cached
-        // 'js/idb/index.js',
         'css/styles.css',
         'img/1_350.jpg',
         'img/1_700.jpg',
@@ -109,21 +107,19 @@ self.addEventListener('fetch', function(event){
 });
 
 
-var testingWaitUntil = () => {
-  fetchReviewsFromIDB();
-  // debugger;
-  console.log("Inside waitUntil");
-  
-  // console.log(prueba);
 
+function postMessageToClients(message) {
+  return clients.matchAll().then(allClients => {
+    for (const client of allClients) {
+      client.postMessage(message);
+    }
+  })
+};
 
-
-  console.log("inside fetchReviewsFromIDB");
-}
 
 self.addEventListener('sync', function (event) {
+  console.log("inside sync")
   if (event.tag === 'review-submission') {
-    // console.log (event);
-    event.waitUntil(testingWaitUntil())
+    event.waitUntil(postMessageToClients(event.tag));
   }
 });
