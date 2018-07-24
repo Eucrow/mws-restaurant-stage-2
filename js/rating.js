@@ -12,6 +12,7 @@ window.onload = function () {
             //     console.log(pair[0]+ ', ' + pair[1]); 
             // }
 
+
             DBHelper.saveReviewToServer(formData).then( () => {
                 form.dispatchEvent(reload_reviews_event);
             })
@@ -27,6 +28,7 @@ window.onload = function () {
 
                 DBHelper.savePendingReview(object)
                 // .then(fillReviewsOffline())
+                .then(addPendingReviewToHTML(object))
                 .then(form.reset())
 
                 console.log('The form is saved in pendingReviews');

@@ -310,9 +310,12 @@ fillReviews = () => {
 //   //  });
 // }
 
-// addPendingReviewToHTML = (review) => {
-//   const
-// }
+addPendingReviewToHTML = (review) => {
+  const reviewsList = document.getElementById('reviews-list')
+  const newReview = createReviewHTML(review);
+
+  reviewsList.appendChild(newReview);
+}
 
 fillReviewsHTML = (reviews) => {
 

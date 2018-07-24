@@ -60,7 +60,7 @@ class DBHelper {
 
   static fetchReviewsFromIDB(){
     return dbPendingPromise.then(function(db){
-      var tx = db.transaction('reiews', 'readonly');
+      var tx = db.transaction('reviews', 'readonly');
       var store = tx.objectStore('reviews');
       return store.getAll();
     })
