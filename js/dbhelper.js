@@ -42,7 +42,7 @@ class DBHelper {
   }
 
   /**
-   * Fetch al reviews from server
+   * Fetch all reviews from server
    */
   static fetchReviewsFromServer(callback){
     fetch(`${DBHelper.DATABASE_URL}/reviews`)
@@ -51,13 +51,87 @@ class DBHelper {
   }
 
   /**
-   * Fetch all the reviews of a restaurant from server.
+   * Fetch all reviews of a restaurant from server.
    */
   static fetchReviewsByRestaurantFromServer(restaurantId){
     return fetch(`${DBHelper.DATABASE_URL}/reviews/?restaurant_id=${restaurantId}`)
       .then(response => response.json())
   }
 
+  static fetchReviewsFromIDB(){
+    return dbPendingPromise.then(function(db){
+      var tx = db.transaction('reviews', 'readonly');
+      var store = tx.objectStore('reviews');
+      return store.getAll();
+    })
+  }
+/**
+ * Fetch reviews saved in reviews IDB database and pending reviews IDB database
+ */
+  // static fetchReviewsOffline(){
+  //   const fromOnline = this.fetchReviewsFromIDB();
+  //   console.log (fromOnline);
+  //   const fromOffline = this.fetchPendingReviewsFromIDB();
+  //   console.log (fromOffline);
+  //   const reviews = fromOnline + fromOffline;
+  //   return reviews;
+  // }
+
+  /**
+   * Fetch all pending reviews from pendingReviewsDB
+   */
+  static fetchPendingReviewsFromIDB(){
+    return dbPendingPromise.then(function(db){
+      var tx = db.transaction('pendingReviews', 'readonly');
+      var store = tx.objectStore('pendingReviews');
+      return store.getAll();
+    })
+  }
+
+  /**
+   * Remove all data in pendingReviewsDB
+   */
+  static clearPendingReviewsIDB(){
+    return dbPendingPromise.then(function(db){
+      var tx = db.transaction('pendingReviews', 'readwrite');
+      var store = tx.objectStore('pendingReviews');
+      store.clear().onsuccess = function(event){
+        return("Pending reviews database clear!");
+      };
+    })
+  }
+
+  /**
+   * Save review to pendingReviewsDB
+   */
+  static savePendingReview(review){
+    return dbPendingPromise.then(function(db){
+      var tx = db.transaction('pendingReviews', 'readwrite');
+      var store = tx.objectStore('pendingReviews');
+      store.add(review);
+    })
+  }
+
+  // static fetchReviewsByRestaurantOffline(restaurantId){
+  //   return this.fetchReviewsOffline()
+  //     .then(revs => revs.json());
+    
+  // }
+
+  /**
+   * Save review to Server
+   */
+  static saveReviewToServer(review){
+    // this function can receive a formData or a javascript object. Fetch can't work with js object:
+    if (!(review instanceof FormData)){
+      review = JSON.stringify(review);
+    }
+    return fetch(`${DBHelper.DATABASE_URL}/reviews`, {
+      method: 'POST',
+      body: review
+    })
+  }
+  
   /**
    * Fetch a restaurant by its ID.
    */

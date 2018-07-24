@@ -4,13 +4,23 @@ var map;
 /**
  * Register the service worker
  */
-if (navigator.serviceWorker){
-  navigator.serviceWorker.register('sw.js').then(function(){
-    console.log('Registration worked!');
-    }).catch(function(){
-    console.log('Registration failed!');
-  });
+
+if (navigator.serviceWorker) {
+  navigator.serviceWorker
+    .register('sw.js')
+    .then(registration => navigator.serviceWorker.ready)
+    .then(() => {
+      console.log('Registration worked!!');
+    });
 }
+
+// if (navigator.serviceWorker){
+//   navigator.serviceWorker.register('sw.js').then(function(){
+//     console.log('Registration worked!');
+//     }).catch(function(){
+//     console.log('Registration failed!');
+//   });
+// }
 
 /**
  * Initialize Google map, called from HTML.
@@ -100,14 +110,14 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   address.innerHTML = restaurant.address;
 
   // fill picture
-  fillPictureRestaurant();
+  // fillPictureRestaurant();
 
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;
 
   // fill operating hours
   if (restaurant.operating_hours) {
-    fillRestaurantHoursHTML();
+    // fillRestaurantHoursHTML();
   }
 
   // fill form to add review
@@ -175,7 +185,6 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
     elem.classList.add('rating-radio_highlight');
   }
 
-
   fillFormReview = (restaurant_id) => {
     const formReview = document.getElementById('form-review');
 
@@ -239,7 +248,6 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
         }
 
         itemHighlight = cont;
-        
       }
 
       ratingLabel.onmouseover = function(){
@@ -249,9 +257,8 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
         for(var t=1; t<=cont; t++){
           higlightElement('star'+t);
         }
-        
       }
-
+      
       ratingLabel.onmouseout = function(){
         const allElements = document.getElementsByClassName("rating-radio");
         unlightRating(allElements);
@@ -259,7 +266,6 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
         for(var t=1; t<=itemHighlight; t++){
           higlightElement('star'+t);
         }
-        
       }
 
       ratingContainer.appendChild(ratingLabel);    
@@ -269,24 +275,38 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
     const submitField = document.createElement("input");
     submitField.setAttribute('type', 'submit');
     submitField.setAttribute('value', 'submit review');
+    submitField.setAttribute('id', 'submit-review');
+
+    // submitField.addEventListener('click', () => {
+    //   navigator.serviceWorker.ready.then(function(reg) {
+    //     reg.sync.register('review-submission');
+    //     console.log ('Sync registered!!')
+    //   });
+    // })
+
     formReview.appendChild(submitField);
+
 
     return formReview;
   } 
-
 
 /**
  * Create all reviews HTML and add them to the webpage.
  */
 fillReviews = () => {
   DBHelper.fetchReviewsByRestaurantFromServer(self.restaurant.id)
-    // .then(reviews => (console.log(reviews)))
     .then(reviews => fillReviewsHTML(reviews))
     .catch((err) => {
       console.log(err);
      });
 }
 
+addPendingReviewToHTML = (review) => {
+  const reviewsList = document.getElementById('reviews-list')
+  const newReview = createReviewHTML(review);
+
+  reviewsList.appendChild(newReview);
+}
 
 fillReviewsHTML = (reviews) => {
 
