@@ -1,5 +1,5 @@
 
-const staticCacheName = 'restaurant-review-v131';
+const staticCacheName = 'restaurant-review-v132';
 
 
 self.addEventListener('install', function(event){
@@ -73,11 +73,6 @@ self.addEventListener('activate', function(event){
 
 self.addEventListener('fetch', function(event){
 
-  // if (event.request.cache === 'only-if-cached' && event.request.mode !== 'same-origin') {
-  //   return;
-  // }
-
-
   const url = new URL(event.request.url);
   
   if (url.pathname.startsWith('/restaurant.html')) {
@@ -106,8 +101,7 @@ self.addEventListener('fetch', function(event){
 
 });
 
-
-
+// funtcion to send a message to the clients
 function postMessageToClients(message) {
   return clients.matchAll().then(allClients => {
     for (const client of allClients) {
@@ -117,8 +111,9 @@ function postMessageToClients(message) {
 };
 
 
+// event listener of the backgroun syn. When the conection is ready, send a message to the clients:
 self.addEventListener('sync', function (event) {
-  console.log("inside sync")
+  // console.log("inside sync")
   if (event.tag === 'review-submission') {
     event.waitUntil(postMessageToClients(event.tag));
   }

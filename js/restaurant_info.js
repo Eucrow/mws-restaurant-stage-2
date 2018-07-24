@@ -301,15 +301,6 @@ fillReviews = () => {
      });
 }
 
-// fillReviewsOffline = () => {
-//   const revs = DBHelper.fetchReviewsByRestaurantOffline(self.restaurant.id)
-//   console.log (revs);
-//   // .then(reviews => fillReviewsHTML(reviews))
-//   // .catch((err) => {
-//   //   console.log(err);
-//   //  });
-// }
-
 addPendingReviewToHTML = (review) => {
   const reviewsList = document.getElementById('reviews-list')
   const newReview = createReviewHTML(review);
