@@ -26,6 +26,9 @@ window.onload = function () {
                 formData.forEach(function(value, key){
                     object[key] = value;
                 });
+                // add createdAt to object
+                now = Date.now();
+                object.createdAt = now;
 
                 DBHelper.savePendingReview(object)
                 .then(addPendingReviewToHTML(object))
