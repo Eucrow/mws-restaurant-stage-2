@@ -67,6 +67,11 @@ updateRatingField = (rate) => {
  * Update the rating elements
  */
 updateRate = (id) => {
+    unlightRating();
+
+    rate = getRateFromId(id);
+    highlightRating(rate);
+
     // change aria-checked and tabindex attribute of all the elements
     ratingElements = document.getElementsByClassName('rating-radio');
     for (el of ratingElements){
@@ -79,7 +84,6 @@ updateRate = (id) => {
     updateRatingElement.setAttribute('aria-checked', 'true');
     updateRatingElement.setAttribute('tabindex', '0');
     
-    rate = getRateFromId(id);
     updateRatingField(rate)
 }
 
@@ -159,27 +163,23 @@ fillFormReview = (restaurant_id) => {
       ratingInput.setAttribute('id', 'r'+i);
       ratingInput.setAttribute('aria-checked', 'false');
       ratingInput.classList.add('rating-radio');
-
+      
+      // when the ratingInput get the focus from keyboard, by default
+      // the first star must be selected:
       ratingInput.onfocus = function() {
         if (focusedIdx == 0) {
             focusedIdx = 1;
-            unlightRating();
-            highlightRating(1);
             updateRate ('r1');
         }
       }
 
-      ratingInput.onclick = function(){
-        unlightRating();
-
+      ratingInput.onclick = function(e){
         for(var t=1; t<=cont; t++){
             higlightRatingImage('r'+t);
         }
 
         focusedIdx = cont;
-        
-        updateRatingField(focusedIdx);
-        updateRate(this.id)
+        updateRate(e.target.id)
 
       }
 
@@ -213,6 +213,7 @@ fillFormReview = (restaurant_id) => {
 
     submitField.onclick = function () {
         unlightRating();
+        focusedIdx = 0;
     }
     formReview.appendChild(submitField);
 
