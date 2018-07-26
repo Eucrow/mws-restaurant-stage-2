@@ -1,18 +1,37 @@
 /**
  * Remove the higlight in all the elements (stars) of rating
  */
-unlightRating = (e) => {
-    for(var r=0; r<e.length; r++){
-        e[r].setAttribute('src', '../img/star_normal.svg');
+unlightRating = () => {
+    const elements = document.getElementsByClassName("rating-radio");
+
+    for(var r=0; r<elements.length; r++){
+        elements[r].setAttribute('src', '../img/star_normal.svg');
+        // console.log("he desmarcado la estrella " + r);
     }
 }
 
 /**
- * Higlight an element (star) of the rating
+ * Higlight an image (star) of the rating
  */
-higlightRating = (e) => {
-    const elem = document.getElementById(e);
+higlightRatingImage = (element) => {
+    const elem = document.getElementById(element);
     elem.setAttribute('src', '../img/star_highlight.svg');
+}
+
+/**
+ * Highlight an image (star) and unhighlight??? the rest of images
+ */
+highlightRating = (current) => {
+
+    // const elements = document.getElementsByClassName("rating-radio");
+
+    unlightRating();
+    if (current == 0){
+        return;
+    }
+    for(var t=1; t<=current; t++){
+       higlightRatingImage('r'+t);
+    }
 }
 
 /**
@@ -24,7 +43,39 @@ var VK_LEFT       = 37;
 var VK_UP         = 38;
 var VK_RIGHT      = 39;
 var VK_DOWN       = 40;
+var VK_TAB        = 9;
 
+// variable to manage the star rating focused
+var focusedIdx = 0;
+
+// get the rate from id element (r1, r2...)
+getRateFromId = (id) => {
+    idx = Number(id.substr(1,1));
+    return idx;
+}
+
+updateRatingField = (rate) => {
+    const ratingValue = document.getElementById('rating')
+    ratingValue.setAttribute('value', rate);
+}
+
+updateRate = (id) => {
+    // change aria-checked and tabindex attribute of all the elements
+    ratingElements = document.getElementsByClassName('rating-radio');
+    for (el of ratingElements){
+      el.setAttribute('aria-checked', 'false');
+      el.setAttribute('tabindex', "-1");
+    }
+
+    // update aria-checked ant tabindex fo the selected element
+    console.log(id)
+    updateRatingElement = document.getElementById(id);
+    updateRatingElement.setAttribute('aria-checked', 'true');
+    updateRatingElement.setAttribute('tabindex', '0');
+    
+    rate = getRateFromId(id);
+    updateRatingField(rate)
+}
 
 fillFormReview = (restaurant_id) => {
 
@@ -84,15 +135,9 @@ fillFormReview = (restaurant_id) => {
     ratingContainer.setAttribute('role', 'radiogroup');
     ratingContainer.setAttribute('aria-labelledby', 'title-form-review');
     ratingContainer.classList.add('rating-container');
-    console.log(ratingContainer)
 
-
-    
    
     ratingContainer.addEventListener('keydown', handleKeyDown.bind(this));
-    // ratingContainer.addEventListener('click', handleClick(this));
-    
-    let itemHighlight;
 
     focusedIdx = 0;
       
@@ -101,54 +146,51 @@ fillFormReview = (restaurant_id) => {
       const ratingInput = document.createElement("img");
       ratingInput.setAttribute('src', '../img/star_normal.svg');
       ratingInput.setAttribute('role', 'radio');
-      ratingInput.setAttribute('tabindex', '0');
-      // i == 1? ratingInput.setAttribute('tabindex', '0') : ratingInput.setAttribute('tabindex', '-1');
-
+      i == 1? ratingInput.setAttribute('tabindex', '0') : ratingInput.setAttribute('tabindex', '-1');
+      
       ratingInput.setAttribute('alt', i+' star');
       ratingInput.setAttribute('name', 'rate'+i);
       ratingInput.setAttribute('id', 'r'+i);
       ratingInput.setAttribute('aria-checked', 'false');
-      ratingInput.classList.add('test-rating-radio');
-      
+      ratingInput.classList.add('rating-radio');
+
+      ratingInput.onfocus = function() {
+        if (focusedIdx == 0) {
+            focusedIdx = 1;
+            unlightRating();
+            highlightRating(1);
+            updateRate ('r1');
+        }
+      }
+
       ratingInput.onclick = function(){
-        const allElements = document.getElementsByClassName("test-rating-radio");
-        unlightRating(allElements);
+        unlightRating();
 
         for(var t=1; t<=cont; t++){
-          higlightRating('r'+t);
+            higlightRatingImage('r'+t);
         }
 
-        itemHighlight = cont;
+        focusedIdx = cont;
         
-        const ratingValue = document.getElementById('rating')
-        ratingValue.setAttribute('value', itemHighlight);
-
-        ratingElements = document.getElementsByClassName('test-rating-radio');
-        for (el of ratingElements){
-          el.setAttribute('aria-checked', 'false');
-        }
-        
-
-        this.setAttribute('aria-checked', 'true');
+        updateRatingField(focusedIdx);
+        updateRate(this.id)
 
       }
 
-      ratingInput.onmouseover = function(){
-        const allElements = document.getElementsByClassName("test-rating-radio");
-        unlightRating(allElements);
+      ratingInput.onmouseover = function(e){
+        idx = e.target.id
+        currentIndex = Number(idx.substr(1,1));
         
-        for(var t=1; t<=cont; t++){
-          higlightRating('r'+t);
-        }
+        unlightRating();
+        highlightRating(currentIndex);
         
       }
 
       ratingInput.onmouseout = function(){
-        const allElements = document.getElementsByClassName("test-rating-radio");
-        unlightRating(allElements);
+        unlightRating();
         
-        for(var t=1; t<=itemHighlight; t++){
-          higlightRating('r'+t);
+        for(var t=1; t<=focusedIdx; t++){
+            higlightRatingImage('r'+t);
         }
         
       }
@@ -161,60 +203,74 @@ fillFormReview = (restaurant_id) => {
     const submitField = document.createElement("input");
     submitField.setAttribute('type', 'submit');
     submitField.setAttribute('value', 'submit review');
+    submitField.setAttribute('id', 'submitButton');
+
+    submitField.onclick = function () {
+        unlightRating();
+    }
     formReview.appendChild(submitField);
 
     return formReview;
 
-  } 
+} 
 
-  
-  handleKeyDown = function(e) {
-      console.log(e)
+// Helper function to convert NodeLists to Arrays
+function slice(nodes) {
+    return Array.prototype.slice.call(nodes);
+    }
+
+handleKeyDown = function(e) {
+    let focusedRating;
+
     switch(e.keyCode) {
         
         case VK_UP:
         case VK_LEFT: {
             e.preventDefault();
-            this.focusedIdx--;
-            if (this.focusedIdx < 0)
-                this.focusedIdx = this.focusedIdx + 5; //5 is the number of the stars
-                e.focus();
-                // console.log(this)
+            focusedIdx--;
+            if (focusedIdx <= 0){
+                focusedIdx = 5; //5 is the number of the stars
+            }
+            const elementRating = document.getElementById('r' + focusedIdx);
+            elementRating.focus();
+            updateRate('r' + focusedIdx);
             break;
         }
         
         case VK_DOWN:
         case VK_RIGHT: {
             e.preventDefault();
-            this.focusedIdx = (this.focusedIdx + 1) % 5;
+            focusedIdx++;
+            if (focusedIdx > 5) {
+                focusedIdx = 1;
+            }
+            const elementRating = document.getElementById('r' + focusedIdx);
+            elementRating.focus();
+            updateRate('r' + focusedIdx);
             break;
         }
 
-        case VK_SPACE:
-            var focusedButton = e.target;
-            var idx = this.buttons.indexOf(focusedButton);
+        
+        case VK_SPACE:{
+            e.preventDefault();
+            const selectorsRating = slice(document.querySelectorAll('.rating-radio'));
+            focusedRating = e.target;
+            const idx = selectorsRating.indexOf(focusedRating) + 1;
+
+            updateRate(focusedRating.id);
+
             if (idx < 0)
-            return;
-            this.focusedIdx = idx;
+                return;
+            focusedIdx = idx;
+            const submitButton = document.getElementById('submitButton');
+            submitButton.focus();
             break;
+        }
             
         default:
             return;
-        }
-        
-    // this.changeFocus();
+    }
+    
+    unlightRating();
+    highlightRating(focusedIdx);
 };
-
-changeFocus = function() {
-    // Set the old button to tabindex -1
-    this.focusedButton.tabIndex = -1;
-    this.focusedButton.removeAttribute('checked');
-    this.focusedButton.setAttribute('aria-checked', 'false');
-
-    // Set the new button to tabindex 0 and focus it
-    this.focusedButton = this.buttons[this.focusedIdx];
-    this.focusedButton.tabIndex = 0;
-    this.focusedButton.focus();
-    this.focusedButton.setAttribute('checked', '');
-    this.focusedButton.setAttribute('aria-checked', 'true');
-  };

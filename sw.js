@@ -1,4 +1,4 @@
-const staticCacheName = 'restaurant-review-v102';
+const staticCacheName = 'restaurant-review-v143';
 
 self.addEventListener('install', function(event){
   event.waitUntil(
