@@ -166,6 +166,8 @@ fillFormReview = (restaurant_id) => {
             unlightRating();
             highlightRating(1);
             updateRate ('r1');
+            const element = document.getElementById('r1');
+            element.focus()
         }
       }
 
@@ -213,6 +215,7 @@ fillFormReview = (restaurant_id) => {
 
     submitField.onclick = function () {
         unlightRating();
+        focusedIdx = 0;
     }
     formReview.appendChild(submitField);
 
