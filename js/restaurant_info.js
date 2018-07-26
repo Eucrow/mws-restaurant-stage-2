@@ -103,30 +103,33 @@ fillPictureRestaurant = (restaurant = self.restaurant) =>{
  * Create restaurant HTML and add it to the webpage
  */
 fillRestaurantHTML = (restaurant = self.restaurant) => {
-  const name = document.getElementById('restaurant-name');
-  name.innerHTML = restaurant.name;
+  // const name = document.getElementById('restaurant-name');
+  // name.innerHTML = restaurant.name;
 
-  const address = document.getElementById('restaurant-address');
-  address.innerHTML = restaurant.address;
+  // const address = document.getElementById('restaurant-address');
+  // address.innerHTML = restaurant.address;
 
   // fill picture
   // fillPictureRestaurant();
 
-  const cuisine = document.getElementById('restaurant-cuisine');
-  cuisine.innerHTML = restaurant.cuisine_type;
+  // const cuisine = document.getElementById('restaurant-cuisine');
+  // cuisine.innerHTML = restaurant.cuisine_type;
 
   // fill operating hours
-  if (restaurant.operating_hours) {
-    // fillRestaurantHoursHTML();
-  }
+  // if (restaurant.operating_hours) {
+  //   fillRestaurantHoursHTML();
+  // }
 
-  // fill form to add review
-  fillFormReview(restaurant.id);
-  // fill reviews
+  // reviews
   const container = document.getElementById('reviews-container');
   const title = document.createElement('h3');
   title.innerHTML = 'Reviews';
   container.appendChild(title);
+
+  // fill form to add review
+  fillFormReview(restaurant.id);
+
+  // fill all reviews
   fillReviews();
 }
 
@@ -167,128 +170,6 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
     hours.appendChild(row);
   }
 }
-
-  /**
-   * remove the higlight in all the elements (stars) of rating
-   */
-  unlightRating = (e) => {
-    for(var r=0; r<e.length; r++){
-      e[r].classList.remove('rating-radio_highlight');
-    }
-  }
-
-  /**
-   * Higlight an element (star) of the rating
-   */
-  higlightElement = (e) => {
-    const elem = document.getElementById(e);
-    elem.classList.add('rating-radio_highlight');
-  }
-
-  fillFormReview = (restaurant_id) => {
-    const formReview = document.getElementById('form-review');
-
-    const restaurantId = document.createElement("input");
-    restaurantId.setAttribute('type', 'hidden');
-    restaurantId.setAttribute('value', restaurant_id);
-    restaurantId.setAttribute('name', 'restaurant_id');
-    restaurantId.setAttribute('id', 'restaurant_id');
-    formReview.appendChild(restaurantId);
-
-    const textName = document.createElement("p");
-    textName.innerHTML = 'Name:';
-    formReview.appendChild(textName);
-
-    const reviewer = document.createElement("input");
-    reviewer.setAttribute('type', 'text');
-    reviewer.setAttribute('name', 'name');
-    reviewer.setAttribute('required', '');
-    formReview.appendChild(reviewer);
-
-    const textComment = document.createElement("p");
-    textComment.innerHTML = 'Comment:';
-    formReview.appendChild(textComment);
-
-    const comment = document.createElement("textarea");
-    comment.setAttribute('name', 'comments');
-    comment.setAttribute('cols', '30');
-    comment.setAttribute('rows', '10');
-    comment.setAttribute('required', '');
-    formReview.appendChild(comment);
-
-    const  ratingContainer = document.createElement("div");
-    ratingContainer.classList.add('rating-container');
-    
-    let itemHighlight;
-    
-    for(var i=1; i<=5; i++) {
-      const cont = i;
-      const ratingInput = document.createElement("input");
-      ratingInput.setAttribute('type', 'radio');
-      ratingInput.setAttribute('name', 'rating');
-      ratingInput.setAttribute('value', i);
-      ratingInput.setAttribute('id', 'r'+i);
-      ratingInput.setAttribute('required', '');
-    
-      
-      ratingInput.classList.add('rating-input');
-      ratingContainer.appendChild(ratingInput);
-
-      const ratingLabel = document.createElement("label");
-      ratingLabel.setAttribute('for', 'r'+i);
-      ratingLabel.setAttribute('id', 'star'+i);
-      ratingLabel.classList.add("rating-radio");
-      
-      ratingLabel.onclick = function(){
-        const allElements = document.getElementsByClassName("rating-radio");
-        unlightRating(allElements);
-        
-        for(var t=1; t<=cont; t++){
-          higlightElement('star'+t)
-        }
-
-        itemHighlight = cont;
-      }
-
-      ratingLabel.onmouseover = function(){
-        const allElements = document.getElementsByClassName("rating-radio");
-        unlightRating(allElements);
-        
-        for(var t=1; t<=cont; t++){
-          higlightElement('star'+t);
-        }
-      }
-      
-      ratingLabel.onmouseout = function(){
-        const allElements = document.getElementsByClassName("rating-radio");
-        unlightRating(allElements);
-        
-        for(var t=1; t<=itemHighlight; t++){
-          higlightElement('star'+t);
-        }
-      }
-
-      ratingContainer.appendChild(ratingLabel);    
-    }
-    formReview.appendChild(ratingContainer);
-
-    const submitField = document.createElement("input");
-    submitField.setAttribute('type', 'submit');
-    submitField.setAttribute('value', 'submit review');
-    submitField.setAttribute('id', 'submit-review');
-
-    // submitField.addEventListener('click', () => {
-    //   navigator.serviceWorker.ready.then(function(reg) {
-    //     reg.sync.register('review-submission');
-    //     console.log ('Sync registered!!')
-    //   });
-    // })
-
-    formReview.appendChild(submitField);
-
-
-    return formReview;
-  } 
 
 /**
  * Create all reviews HTML and add them to the webpage.

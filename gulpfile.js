@@ -108,6 +108,7 @@ gulp.task('serve', gulp.series(function() {
     gulp.watch("*.html").on('change', browserSync.reload);
     gulp.watch("*.js").on('change', browserSync.reload);
     gulp.watch("**/*.js").on('change', browserSync.reload);
+    gulp.watch("/js/*.js").on('change', browserSync.reload);
     gulp.watch("**/*.css").on("change", browserSync.reload);
     gulp.watch("manifest.json").on("change", browserSync.reload);
 }));

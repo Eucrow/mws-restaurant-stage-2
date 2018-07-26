@@ -350,11 +350,16 @@ box-shadow: 0px 0px 4px 3px rgba(31, 87, 124,0.75);
         margin: 0.1rem;
       }
 
+      .form-rating input,
+      .form-rating label{
+        display: block
+      }
+
       .rating-container{
         display: block;
       }
 
-      .rating-radio{
+      /* .rating-radio{
         width: 24px;
         height: 24px;
         cursor:pointer;
@@ -362,6 +367,13 @@ box-shadow: 0px 0px 4px 3px rgba(31, 87, 124,0.75);
         background-repeat:no-repeat;
         display:inline-block;
         background-image: url(../img/star_normal.svg);
+      } */
+
+      .rating-radio{
+        width: 24px;
+        height: 24px;
+        cursor:pointer;
+        display:inline-block;
       }
 
       .rating-radio_highlight{
