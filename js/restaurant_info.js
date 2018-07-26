@@ -190,8 +190,6 @@ addPendingReviewToHTML = (review) => {
 }
 
 fillReviewsHTML = (reviews) => {
-
-  console.log(reviews);
   
   const container = document.getElementById('reviews-container');
 
@@ -232,15 +230,12 @@ createReviewHTML = (review) => {
   const name = document.createElement('p');
   name.innerHTML = review.name;
   name.classList.add('review-name');
-  // li.appendChild(name);
   header.appendChild(name);
 
   const date = document.createElement('p');
   dateString = new Date(review.createdAt);
-  console.log(dateString);
   date.innerHTML = dateString.toLocaleString();
   date.classList.add('review-date');
-  // li.appendChild(date);
   header.appendChild(date);
 
   const rating = document.createElement('p');
