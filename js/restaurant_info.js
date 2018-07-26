@@ -103,22 +103,22 @@ fillPictureRestaurant = (restaurant = self.restaurant) =>{
  * Create restaurant HTML and add it to the webpage
  */
 fillRestaurantHTML = (restaurant = self.restaurant) => {
-  // const name = document.getElementById('restaurant-name');
-  // name.innerHTML = restaurant.name;
+  const name = document.getElementById('restaurant-name');
+  name.innerHTML = restaurant.name;
 
-  // const address = document.getElementById('restaurant-address');
-  // address.innerHTML = restaurant.address;
+  const address = document.getElementById('restaurant-address');
+  address.innerHTML = restaurant.address;
 
   // fill picture
-  // fillPictureRestaurant();
+  fillPictureRestaurant();
 
-  // const cuisine = document.getElementById('restaurant-cuisine');
-  // cuisine.innerHTML = restaurant.cuisine_type;
+  const cuisine = document.getElementById('restaurant-cuisine');
+  cuisine.innerHTML = restaurant.cuisine_type;
 
   // fill operating hours
-  // if (restaurant.operating_hours) {
-  //   fillRestaurantHoursHTML();
-  // }
+  if (restaurant.operating_hours) {
+    fillRestaurantHoursHTML();
+  }
 
   // reviews
   const container = document.getElementById('reviews-container');

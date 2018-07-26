@@ -1,4 +1,4 @@
-const staticCacheName = 'restaurant-review-v143';
+const staticCacheName = 'restaurant-review-v145';
 
 self.addEventListener('install', function(event){
   event.waitUntil(
@@ -12,6 +12,7 @@ self.addEventListener('install', function(event){
         'js/idb_restaurant_info.js',
         'js/idb.js',
         'js/main.js',
+        'js/rating_stars.js',
         'js/rating.js',
         'js/restaurant_info.js',
         // 'sw.js', // The service worker itself musn't be cached
