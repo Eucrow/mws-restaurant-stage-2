@@ -1,4 +1,17 @@
 /**
+ * Define values for keycodes
+ */
+var VK_ENTER      = 13;
+var VK_SPACE      = 32;
+var VK_LEFT       = 37;
+var VK_UP         = 38;
+var VK_RIGHT      = 39;
+var VK_DOWN       = 40;
+
+// variable to manage the star rating focused
+var focusedIdx = 0;
+
+/**
  * Remove the higlight in all the elements (stars) of rating
  */
 unlightRating = () => {
@@ -35,30 +48,24 @@ highlightRating = (current) => {
 }
 
 /**
- * Define values for keycodes
+ * get the rate from id element (r1, r2...)
  */
-var VK_ENTER      = 13;
-var VK_SPACE      = 32;
-var VK_LEFT       = 37;
-var VK_UP         = 38;
-var VK_RIGHT      = 39;
-var VK_DOWN       = 40;
-var VK_TAB        = 9;
-
-// variable to manage the star rating focused
-var focusedIdx = 0;
-
-// get the rate from id element (r1, r2...)
 getRateFromId = (id) => {
     idx = Number(id.substr(1,1));
     return idx;
 }
 
+/**
+ * Update hidden field 'rating' with the value selected
+ */
 updateRatingField = (rate) => {
     const ratingValue = document.getElementById('rating')
     ratingValue.setAttribute('value', rate);
 }
 
+/**
+ * Update the rating elements
+ */
 updateRate = (id) => {
     // change aria-checked and tabindex attribute of all the elements
     ratingElements = document.getElementsByClassName('rating-radio');
@@ -68,7 +75,6 @@ updateRate = (id) => {
     }
 
     // update aria-checked ant tabindex fo the selected element
-    console.log(id)
     updateRatingElement = document.getElementById(id);
     updateRatingElement.setAttribute('aria-checked', 'true');
     updateRatingElement.setAttribute('tabindex', '0');
