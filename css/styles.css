@@ -284,6 +284,26 @@ box-shadow: 0px 0px 4px 3px rgba(31, 87, 124,0.75);
       .restaurant-hours td{
         vertical-align: top;
       }
+      /* ============ Favorite Restaurant ============ */
+      .checkbox-favorite {
+        /* background: url('../img/heart_normal.svg') no-repeat; */
+        width:24px;
+        height: 24px;
+        border: 2px transparent solid;
+      }
+     
+      .checkbox-favorite:active {
+        background-color: #bbb;
+      }
+        
+      .checkbox-favorite:hover {
+        border-color: #777;
+      }
+      
+      .checkbox-favorite.focus {
+        border-color: black;
+      }
+
 /* ============ Restaurant Reviews ============ */
 .reviews-container{
   width: 100%;

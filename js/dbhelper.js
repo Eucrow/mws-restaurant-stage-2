@@ -274,4 +274,24 @@ class DBHelper {
     return marker;
   }
 
+  
+  /**
+   * FAVORITES!!
+   */
+  
+  static isFavorite(restaurant) {
+    return dbPromise.then(function(db){
+      var tx = db.transaction('restaurants', 'readonly');
+      var store = tx.objectStore('restaurants');
+      return store.get(restaurant,id);
+    })
+    .then(restaurant => {
+      if (restaurant.is_favorite == True) {
+        return True;
+      } else {
+        return False;
+      }
+    })
+  }
+  
 }

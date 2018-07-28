@@ -112,9 +112,13 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   // fill picture
   fillPictureRestaurant();
 
+  // fill cuisine
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;
 
+  // fill favorite
+  fillFavorite();
+  
   // fill operating hours
   if (restaurant.operating_hours) {
     fillRestaurantHoursHTML();
