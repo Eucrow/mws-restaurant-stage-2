@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 const staticCacheName = 'restaurant-review-v146';
+=======
+const staticCacheName = 'restaurant-review-v149';
+>>>>>>> Stashed changes
 
 self.addEventListener('install', function(event){
   event.waitUntil(
@@ -17,39 +21,39 @@ self.addEventListener('install', function(event){
         'js/restaurant_info.js',
         // 'sw.js', // The service worker itself musn't be cached
         'css/styles.css',
-        'img/1_350.jpg',
-        'img/1_700.jpg',
-        'img/1_800.jpg',
-        'img/2_350.jpg',
-        'img/2_700.jpg',
-        'img/2_800.jpg',
-        'img/3_350.jpg',
-        'img/3_700.jpg',
-        'img/3_800.jpg',
-        'img/4_350.jpg',
-        'img/4_700.jpg',
-        'img/4_800.jpg',
-        'img/5_350.jpg',
-        'img/5_700.jpg',
-        'img/5_800.jpg',
-        'img/6_350.jpg',
-        'img/6_700.jpg',
-        'img/6_800.jpg',
-        'img/7_350.jpg',
-        'img/7_700.jpg',
-        'img/7_800.jpg',
-        'img/8_350.jpg',
-        'img/8_700.jpg',
-        'img/8_800.jpg',
-        'img/9_350.jpg',
-        'img/9_700.jpg',
-        'img/9_800.jpg',
-        'img/10_350.jpg',
-        'img/10_700.jpg',
-        'img/10_800.jpg',
-        'img/nia_350.jpg',
-        'img/nia_700.jpg',
-        'img/nia_800.jpg'
+        'img/1_350.webp',
+        'img/1_700.webp',
+        'img/1_800.webp',
+        'img/2_350.webp',
+        'img/2_700.webp',
+        'img/2_800.webp',
+        'img/3_350.webp',
+        'img/3_700.webp',
+        'img/3_800.webp',
+        'img/4_350.webp',
+        'img/4_700.webp',
+        'img/4_800.webp',
+        'img/5_350.webp',
+        'img/5_700.webp',
+        'img/5_800.webp',
+        'img/6_350.webp',
+        'img/6_700.webp',
+        'img/6_800.webp',
+        'img/7_350.webp',
+        'img/7_700.webp',
+        'img/7_800.webp',
+        'img/8_350.webp',
+        'img/8_700.webp',
+        'img/8_800.webp',
+        'img/9_350.webp',
+        'img/9_700.webp',
+        'img/9_800.webp',
+        'img/10_350.webp',
+        'img/10_700.webp',
+        'img/10_800.webp',
+        'img/nia_350.webp',
+        'img/nia_700.webp',
+        'img/nia_800.webp'
       ]);
     })
   );

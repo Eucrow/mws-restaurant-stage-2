@@ -162,14 +162,14 @@ createRestaurantHTML = (restaurant) => {
   source.className = 'restaurant-img';
   source.media = "(max-width:350px)";
   source.srcset = imagePathWhitoutExtension + "_350." + imageExtension;
-  source.type = "image/jpeg"
+  source.type = "image/webp"
   picture.appendChild(source)
   // medium image
   source = document.createElement('source');
   source.className = 'restaurant-img';
   source.media = "(min-width:351px, max-width:700px)";
   source.srcset = imagePathWhitoutExtension + "_700." + imageExtension;
-  source.type = "image/jpeg"
+  source.type = "image/webp"
   picture.appendChild(source)
   // default image (the biggest one)
   const img = document.createElement('img');

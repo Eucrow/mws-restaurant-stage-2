@@ -477,11 +477,11 @@ class DBHelper {
    */
   static imageUrlForRestaurant(restaurant) {
     // in this version of database, the name of the photograph doesn't have extension,
-    // so I put .jpg
+    // so I put .webp
     if(restaurant.photograph) {
-     return (`/img/${restaurant.photograph}.jpg`);
+     return (`/img/${restaurant.photograph}.webp`);
     } else { // If there aren't any image to the restaurant, put the default image.
-      return (`/img/nia.jpg`)
+      return (`/img/nia.webp`)
     }
   }
 

@@ -14,6 +14,7 @@ var minify = composer(UglifyJS, console);
 // var uglify = require('gulp-uglify');
 let cleanCSS = require('gulp-clean-css');
 var htmlmin = require('gulp-htmlmin');
+const webp = require('gulp-webp');
 
 // Minify html
 gulp.task('minify-html', function() {
@@ -113,12 +114,18 @@ gulp.task('serve', gulp.series(function() {
     gulp.watch("manifest.json").on("change", browserSync.reload);
 }));
 
+// convert images to webp
+gulp.task('convertToWEBP', () =>
+    gulp.src('./img/*.jpg')
+        .pipe(webp())
+        .pipe(gulp.dest('./img/'))
+);
 // optimización de imágenes de usuario para responsive
 // se debería hacer en el backend
 gulp.task('responsive', gulp.series(function(){
-    return gulp.src('./img/*.jpg')
+    return gulp.src('./img/*.webp')
     .pipe(responsive({
-        '*.jpg':[
+        '*.webp':[
             { width: 350, suffix: "_350"},
             { width: 700, suffix: "_700"},
             { width: 800, suffix: "_800"}
@@ -126,6 +133,8 @@ gulp.task('responsive', gulp.series(function(){
     }))
     .pipe(gulp.dest('./dist/img/'))
 }));
+
+
 
 // gulp.task('babel', () =>
 //     gulp.src('node_modules/idb/lib/idb.js')
