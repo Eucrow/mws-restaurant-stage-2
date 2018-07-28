@@ -278,20 +278,42 @@ class DBHelper {
   /**
    * FAVORITES!!
    */
-  
-  static isFavorite(restaurant) {
-    return dbPromise.then(function(db){
+  static fetchRestaurantFromIDB(restaurant){
+    var dbPromise = idb.open('restaurantDB');
+    return dbPromise
+    .then ( db => {
       var tx = db.transaction('restaurants', 'readonly');
       var store = tx.objectStore('restaurants');
-      return store.get(restaurant,id);
-    })
-    .then(restaurant => {
-      if (restaurant.is_favorite == True) {
-        return True;
-      } else {
-        return False;
-      }
+      var rest = store.get(restaurant.id)
+        .then(rest => {
+            console.log(rest.id);
+            return(rest)
+          });
+      return rest;
     })
   }
-  
+
+  static isFavorite(restaurant){
+    DBHelper.fetchRestaurantFromIDB(restaurant)
+    .then(rest =>  {
+      return (rest.is_favorite);
+    })
+  }
+
+  static toggleFavoriteFromLocal(restaurant){
+    const rest = DBHelper.fetchRestaurantFromIDB(restaurant);
+    console.log(restaurant.is_favorite)
+    restaurant.is_favorite = !restaurant.is_favorite;
+    console.log(restaurant.is_favorite)
+    debugger
+
+    var dbPromise = idb.open('restaurantDB');
+    return dbPromise
+      .then ( db => {
+        var tx = db.transaction('restaurants', 'readwrite');
+        var store = tx.objectStore('restaurants');
+        store.put(restaurant);
+      })
+    }
+
 }

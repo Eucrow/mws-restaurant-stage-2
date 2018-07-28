@@ -58,16 +58,21 @@ function toggleCheckbox(event) {
     event.currentTarget.className = event.currentTarget.className .replace(' focus','')
   }
 
-function heartLike(idToChange){
-    var imageToChange = document.getElementsByClassName('checkbox-favorite');
-    imageToChange.removeClass("checkbox-favorite");
-    imageToChange.addClass("checkbox-favorite_like");
-}
+function toggleFavorite(){
 
-function heartDislike(idToChange){
-    var imageToChange = document.getElementsByClassName('checkbox-favorite');
-    imageToChange.removeClass("checkbox-favorite_like");
-    imageToChange.addClass("checkbox-favorite");
+    // DBHelper.fetchIsFavorite(self.restaurant)
+    // .then(resp => {
+    //     console.log("dflkajd´f")
+    //     console.log (resp)
+    // });
+    ñññ = DBHelper.toggleFavoriteFromLocal(self.restaurant)
+    if (ñññ == false) { console.log("ñññ is false")}
+    console.log(ñññ)
+    // console.log (DBHelper.toggleFavoriteFromLocal(self.restaurant))
+    // .then(resp => {
+    //     console.log("dflkajd´f")
+    //     console.log (resp)
+    // });
 }
 
 fillFavorite = (restaurant_id) => {
@@ -93,31 +98,32 @@ fillFavorite = (restaurant_id) => {
 
 
     // checkboxFavorite.onmouseover = (event) => {
-    //     // console.log(event.currentTarget)
+        
     //     // console.log(event.target)
     //     event.target.setAttribute('src', '../img/heart_highlight.svg');
     // }
+
+    // // this does not work:
     // checkboxFavorite.onmouseout = (event) => {
-    //     event.target.setAttribute('src', '../img/heart_normal.svg');
+    //     let node = event.currentTarget
+    //     console.log(node)
+    //     let isChecked = node.getAttribute('aria-checked');
+    //     console.log (isChecked)
+    //     if (isChecked === false) {
+    //         console.log("es falso")
+    //         node.setAttribute('src', '../img/heart_normal.svg');
+    //     }
     // }
+
     checkboxFavorite.onclick = (event) => {
-        // console.log(event.currentTarget)
         // console.log(event.target)
+        // console.log(event.currentTarget)
+        // console.log(self)
         toggleCheckbox(event);
+        // console.log(event.target.restaurant_id);
+        toggleFavorite();
     }
     checkboxFavorite.onkeydown = (event) => {
-        // console.log(event.currentTarget)
-        // console.log(event.target)
-        toggleCheckbox(event);
-    }
-    checkboxFavorite.onkeydown = (event) => {
-        // console.log(event.currentTarget)
-        // console.log(event.target)
-        toggleCheckbox(event);
-    }
-    checkboxFavorite.onkeydown = (event) => {
-        // console.log(event.currentTarget)
-        // console.log(event.target)
         toggleCheckbox(event);
     }
 
