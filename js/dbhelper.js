@@ -303,7 +303,11 @@ class DBHelper {
   static toggleFavoriteFromLocal(restaurant){
     const rest = DBHelper.fetchRestaurantFromIDB(restaurant);
     console.log(restaurant.is_favorite)
+    // change the value of is_favorite variable
     restaurant.is_favorite = !restaurant.is_favorite;
+    // change the value of updatedIsFavorite, to mark a restaurant which has been its
+    // variable is_favorite changed
+    restaurant.updatedIsFavorite = !restaurant.updatedIsFavorite;
     console.log(restaurant.is_favorite)
     debugger
 

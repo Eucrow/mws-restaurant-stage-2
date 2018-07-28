@@ -2,7 +2,7 @@ if (!('indexedDB' in window)) {
     console.log('This browser doesn\'t support IndexedDB');
   }
 
-var dbPromise = idb.open('reviewsDB', 2, function(upgradeDb){
+var dbPromise = idb.open('reviewsDB', 3, function(upgradeDb){
     if (!upgradeDb.objectStoreNames.contains('reviews')){
         var reviewsStore = upgradeDb.createObjectStore('reviews', {
             keyPath: 'id'

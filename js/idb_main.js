@@ -4,7 +4,7 @@ if (!('indexedDB' in window)) {
   }
 
 
-var dbPromise = idb.open('restaurantDB', 8, function(upgradeDb){
+var dbPromise = idb.open('restaurantDB', 10, function(upgradeDb){
     if (!upgradeDb.objectStoreNames.contains('restaurants')){
         var restaurantStore = upgradeDb.createObjectStore('restaurants', {
             keyPath: 'id'
@@ -18,6 +18,8 @@ dbPromise.then(db => {
         restaurants.forEach(function(rest){
             var tx = db.transaction('restaurants', 'readwrite');
             var keyValStore = tx.objectStore('restaurants');
+            // Add a field to check if is_favorite variable has been updated
+            rest.updatedIsFavorite = false;
             keyValStore.put(rest);
         })
     })
