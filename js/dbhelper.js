@@ -286,7 +286,6 @@ class DBHelper {
       var store = tx.objectStore('restaurants');
       var rest = store.get(restaurant.id)
         .then(rest => {
-            console.log(rest.id);
             return(rest)
           });
       return rest;
@@ -302,14 +301,13 @@ class DBHelper {
 
   static toggleFavoriteFromLocal(restaurant){
     const rest = DBHelper.fetchRestaurantFromIDB(restaurant);
-    console.log(restaurant.is_favorite)
+
     // change the value of is_favorite variable
     restaurant.is_favorite = !restaurant.is_favorite;
+
     // change the value of updatedIsFavorite, to mark a restaurant which has been its
     // variable is_favorite changed
     restaurant.updatedIsFavorite = !restaurant.updatedIsFavorite;
-    console.log(restaurant.is_favorite)
-    debugger
 
     var dbPromise = idb.open('restaurantDB');
     return dbPromise
@@ -319,5 +317,15 @@ class DBHelper {
         store.put(restaurant);
       })
     }
+
+  static updateFavoriteInServer(restaurant){
+    console.log(`${DBHelper.DATABASE_URL}/restaurants/${restaurant.id}/?is_favorite=${restaurant.is_favorite}`);
+    fetch(`${DBHelper.DATABASE_URL}/restaurants/${restaurant.id}/?is_favorite=${restaurant.is_favorite}`,
+      {method: "PUT"})
+      .then(response => response.json())
+      .then(response => console.log(response))
+      .catch(error => console.error(`Fetch Error =\n`, error));
+      // .then(restaurants => callback(null, restaurants));
+  }
 
 }

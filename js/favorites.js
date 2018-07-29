@@ -60,19 +60,9 @@ function toggleCheckbox(event) {
 
 function toggleFavorite(){
 
-    // DBHelper.fetchIsFavorite(self.restaurant)
-    // .then(resp => {
-    //     console.log("dflkajd´f")
-    //     console.log (resp)
-    // });
-    ñññ = DBHelper.toggleFavoriteFromLocal(self.restaurant)
-    if (ñññ == false) { console.log("ñññ is false")}
-    console.log(ñññ)
-    // console.log (DBHelper.toggleFavoriteFromLocal(self.restaurant))
-    // .then(resp => {
-    //     console.log("dflkajd´f")
-    //     console.log (resp)
-    // });
+    DBHelper.toggleFavoriteFromLocal(self.restaurant)
+    .then(DBHelper.updateFavoriteInServer(self.restaurant))
+
 }
 
 fillFavorite = (restaurant_id) => {
@@ -98,11 +88,9 @@ fillFavorite = (restaurant_id) => {
 
 
     // checkboxFavorite.onmouseover = (event) => {
-        
     //     // console.log(event.target)
     //     event.target.setAttribute('src', '../img/heart_highlight.svg');
     // }
-
     // // this does not work:
     // checkboxFavorite.onmouseout = (event) => {
     //     let node = event.currentTarget
