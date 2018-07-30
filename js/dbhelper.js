@@ -29,7 +29,7 @@ class DBHelper {
   /**
    * Fetch all restaurants from idb
    */
-  static fetchRestaurants(callback) {
+  static fetchRestaurantsFromIDB(callback) {
 
     var dbPromise = idb.open('restaurantDB');
 
@@ -137,7 +137,7 @@ class DBHelper {
    */
   static fetchRestaurantById(id, callback) {
     // fetch all restaurants with proper error handling.
-    DBHelper.fetchRestaurants((error, restaurants) => {
+    DBHelper.fetchRestaurantsFromIDB((error, restaurants) => {
       if (error) {
         callback(error, null);
       } else {
@@ -156,7 +156,7 @@ class DBHelper {
    */
   static fetchRestaurantByCuisine(cuisine, callback) {
     // Fetch all restaurants  with proper error handling
-    DBHelper.fetchRestaurants((error, restaurants) => {
+    DBHelper.fetchRestaurantsFromIDB((error, restaurants) => {
       if (error) {
         callback(error, null);
       } else {
@@ -172,7 +172,7 @@ class DBHelper {
    */
   static fetchRestaurantByNeighborhood(neighborhood, callback) {
     // Fetch all restaurants
-    DBHelper.fetchRestaurants((error, restaurants) => {
+    DBHelper.fetchRestaurantsFromIDB((error, restaurants) => {
       if (error) {
         callback(error, null);
       } else {
@@ -188,7 +188,7 @@ class DBHelper {
    */
   static fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood, callback) {
     // Fetch all restaurants
-    DBHelper.fetchRestaurants((error, restaurants) => {
+    DBHelper.fetchRestaurantsFromIDB((error, restaurants) => {
       if (error) {
         callback(error, null);
       } else {
@@ -209,7 +209,7 @@ class DBHelper {
    */
   static fetchNeighborhoods(callback) {
     // Fetch all restaurants
-    DBHelper.fetchRestaurants((error, restaurants) => {
+    DBHelper.fetchRestaurantsFromIDB((error, restaurants) => {
       if (error) {
         callback(error, null);
       } else {
@@ -227,7 +227,7 @@ class DBHelper {
    */
   static fetchCuisines(callback) {
     // Fetch all restaurants
-    DBHelper.fetchRestaurants((error, restaurants) => {
+    DBHelper.fetchRestaurantsFromIDB((error, restaurants) => {
       if (error) {
         callback(error, null);
       } else {
@@ -278,36 +278,67 @@ class DBHelper {
   /**
    * FAVORITES!!
    */
-  static fetchRestaurantFromIDB(restaurant){
-    var dbPromise = idb.open('restaurantDB');
-    return dbPromise
-    .then ( db => {
-      var tx = db.transaction('restaurants', 'readonly');
-      var store = tx.objectStore('restaurants');
-      var rest = store.get(restaurant.id)
-        .then(rest => {
-            return(rest)
-          });
-      return rest;
+  // THIS DOES NOT WORK
+  // static fetchRestaurantFromIDB(id){
+    // dbPromise.then(function(db) {
+    //   var tx = db.transaction('restaurants', 'readonly');
+    //   var store = tx.objectStore('restaurants');
+    //   store.get("1").onsuccess = function(event) {
+    //     var rest = event.target.result;
+    //     debugger;
+    //     if (rest == null) {
+    //         return ("restaurant not found");
+    //     }
+    //     else {
+    //         var jsonStr = JSON.stringify(rest);
+    //         console.log( jsonStr)
+    //     }
+    //   }
+    // })
+
+    // var store = dbPromise.db.transaction("restaurants").objectStore("restaurants");
+    // store.get(id).onsuccess = function(event) {
+    //   var rest = event.target.result;
+    //   if (rest == null) {
+    //       return ("restaurant not found");
+    //   }
+    //   else {
+    //       var jsonStr = JSON.stringify(employee);
+    //       return jsonStr
+    //   }
+    // }
+
+  // }
+
+  // THIS DOES NOT WORK BECAUSE fetchRestaurantFromIDB DOESN'T WORK
+  // static isFavorite(restaurant){
+  //   var isFavoriteRestaurant = DBHelper.fetchRestaurantFromIDB(restaurant)
+  //   .then(rest =>  {
+  //     return (rest.is_favorite);
+  //   })
+
+  //   return isFavoriteRestaurant;
+  // }
+
+
+  static fetchModifiedFavoritesRestaurantsFromIDB(){
+    DBHelper.fetchRestaurantsFromIDB((error, restaurants) => {
+      let modifiedFavorites = restaurants.filter( rest => rest.updatedIsFavorite == true);
+      console.log(modifiedFavorites);
     })
   }
 
-  static isFavorite(restaurant){
-    DBHelper.fetchRestaurantFromIDB(restaurant)
-    .then(rest =>  {
-      return (rest.is_favorite);
-    })
-  }
 
-  static toggleFavoriteFromLocal(restaurant){
-    const rest = DBHelper.fetchRestaurantFromIDB(restaurant);
-
-    // change the value of is_favorite variable
-    restaurant.is_favorite = !restaurant.is_favorite;
-
+  static toggleUpdateIsFavoriteInLocal(restaurant){
     // change the value of updatedIsFavorite, to mark a restaurant which has been its
     // variable is_favorite changed
     restaurant.updatedIsFavorite = !restaurant.updatedIsFavorite;
+  }
+
+  static toggleFavoriteInLocal(restaurant, callback){
+
+    // change the value of is_favorite variable
+    restaurant.is_favorite = !restaurant.is_favorite;
 
     var dbPromise = idb.open('restaurantDB');
     return dbPromise
@@ -316,15 +347,16 @@ class DBHelper {
         var store = tx.objectStore('restaurants');
         store.put(restaurant);
       })
-    }
+      .then ( response => { calback(null, response) })
+  }
 
-  static updateFavoriteInServer(restaurant){
-    console.log(`${DBHelper.DATABASE_URL}/restaurants/${restaurant.id}/?is_favorite=${restaurant.is_favorite}`);
+  static updateFavoriteInServer(restaurant, callback){
     fetch(`${DBHelper.DATABASE_URL}/restaurants/${restaurant.id}/?is_favorite=${restaurant.is_favorite}`,
       {method: "PUT"})
-      .then(response => response.json())
-      .then(response => console.log(response))
-      .catch(error => console.error(`Fetch Error =\n`, error));
+      .then(response => {return (response.json())})
+      // .then(response => console.log(response))
+      .then(rest => { callback (null, rest) })
+      // .catch(error => console.error(`Fetch Error =\n`, error));
       // .then(restaurants => callback(null, restaurants));
   }
 

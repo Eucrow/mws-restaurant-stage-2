@@ -58,12 +58,36 @@ function toggleCheckbox(event) {
     event.currentTarget.className = event.currentTarget.className .replace(' focus','')
   }
 
-function toggleFavorite(){
+  function toggleFavorite (restaurant) {
+    DBHelper.toggleFavoriteInLocal(restaurant, (error, rest) => {
+        if (!rest) {
+            console.log (error);
+            return;
+        }
+        console.log ("update is_favorite in Local")
+        return (rest)
+    })
+    .then ( rest => {
+        DBHelper.updateFavoriteInServer(rest, (error, restaurant) => {
+            console.log ("update is_favorite in Server")
+        })
+    })
+  }
+// function toggleFavorite(restaurant, (error, rest) => {
 
-    DBHelper.toggleFavoriteFromLocal(self.restaurant)
-    .then(DBHelper.updateFavoriteInServer(self.restaurant))
+//     // toggle favorite in indexedDB
+//     DBHelper.toggleFavoriteInLocal(restaurant)
+//     // .then(resp => {
+//     //     // update favorite in server
+//     //     DBHelper.updateFavoriteInServer(restaurant, rest => {
+//     //         // if has been updated, then toggle updateIsFavorite in local
+//     //         DBHelper.toggleUpdateIsFavoriteInLocal(rest);
 
-}
+//     //     })
+
+//     // })
+
+// })
 
 fillFavorite = (restaurant_id) => {
     favoriteContainer = document.getElementById('favorite-container');
@@ -74,12 +98,22 @@ fillFavorite = (restaurant_id) => {
     checkboxFavorite.setAttribute('type', 'checkbox');
     checkboxFavorite.setAttribute('name', 'checkbox-favorite');
     checkboxFavorite.setAttribute('role','checkbox');
-    checkboxFavorite.setAttribute('aria-checked','false');
+
+    // get is_favorite attribute from idb
+    // DBHelper.fetchRestaurantsFromIDB((error, restaurants) => {
+    //     console.log(restaurants);
+    // })
+    // DBHelper.fetchModifiedFavoritesRestaurantsFromIDB()
+    
+
+    isFavorite = self.restaurant.is_favorite;
+    checkboxFavorite.setAttribute('aria-checked', isFavorite);
     checkboxFavorite.setAttribute('tabindex','0');
     checkboxFavorite.classList.add('checkbox-favorite');
 
     let imageFavorite = document.createElement('img');
-    imageFavorite.setAttribute('src', '../img/heart_normal.svg');
+    let nameImage = isFavorite == true? "heart_highlight.svg": "heart_normal.svg"
+    imageFavorite.setAttribute('src', '../img/' + nameImage);
     imageFavorite.setAttribute('id', 'image-favorite');
     imageFavorite.setAttribute('alt', 'Mark as favorite');
     imageFavorite.setAttribute('name', 'img');
@@ -109,7 +143,7 @@ fillFavorite = (restaurant_id) => {
         // console.log(self)
         toggleCheckbox(event);
         // console.log(event.target.restaurant_id);
-        toggleFavorite();
+        toggleFavorite(self.restaurant);
     }
     checkboxFavorite.onkeydown = (event) => {
         toggleCheckbox(event);
