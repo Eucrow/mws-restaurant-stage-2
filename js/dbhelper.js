@@ -335,29 +335,42 @@ class DBHelper {
     restaurant.updatedIsFavorite = !restaurant.updatedIsFavorite;
   }
 
-  static toggleFavoriteInLocal(restaurant, callback){
+
+  
+  /**
+   * toggle is_favorite variable in local database
+   * @param {*} restaurant 
+   */
+  static toggleFavoriteInLocal(restaurant){
 
     // change the value of is_favorite variable
     restaurant.is_favorite = !restaurant.is_favorite;
 
     var dbPromise = idb.open('restaurantDB');
-    return dbPromise
-      .then ( db => {
-        var tx = db.transaction('restaurants', 'readwrite');
-        var store = tx.objectStore('restaurants');
-        store.put(restaurant);
-      })
-      .then ( response => { calback(null, response) })
+    return dbPromise.then ( db => {
+      var tx = db.transaction('restaurants', 'readwrite');
+      var store = tx.objectStore('restaurants');
+      var storeUpdated = store.put(restaurant);
+      return storeUpdated;
+    })
+    .catch(error => console.log(error));
+
   }
 
+  /**
+   * Uodate is_favorite in server
+   * @param {*} restaurant 
+   * @param {*} callback 
+   */
   static updateFavoriteInServer(restaurant, callback){
+    console.log(restaurant);
     fetch(`${DBHelper.DATABASE_URL}/restaurants/${restaurant.id}/?is_favorite=${restaurant.is_favorite}`,
       {method: "PUT"})
       .then(response => {return (response.json())})
-      // .then(response => console.log(response))
       .then(rest => { callback (null, rest) })
-      // .catch(error => console.error(`Fetch Error =\n`, error));
-      // .then(restaurants => callback(null, restaurants));
+      .catch(error => {
+        callback (error, null)
+      });
   }
 
 }
