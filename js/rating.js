@@ -69,7 +69,6 @@ window.onload = function () {
 
         if (message.data === "is-favorite-submission") {
             DBHelper.sumbitPendingFavorites();
-            debugger
         }
     })
 
