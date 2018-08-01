@@ -15,6 +15,9 @@ dbPromise.then(db => {
         reviews.forEach(function(rest){
             var tx = db.transaction('reviews', 'readwrite');
             var keyValStore = tx.objectStore('reviews');
+            // create variable pendingToUpdateFavorite to use when there are any problems
+            // with the conection
+            rest.pendingToUpdateFavorite = false;
             keyValStore.put(rest);
         })
     })

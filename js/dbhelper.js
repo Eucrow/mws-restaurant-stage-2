@@ -65,17 +65,6 @@ class DBHelper {
       return store.getAll();
     })
   }
-/**
- * Fetch reviews saved in reviews IDB database and pending reviews IDB database
- */
-  // static fetchReviewsOffline(){
-  //   const fromOnline = this.fetchReviewsFromIDB();
-  //   console.log (fromOnline);
-  //   const fromOffline = this.fetchPendingReviewsFromIDB();
-  //   console.log (fromOffline);
-  //   const reviews = fromOnline + fromOffline;
-  //   return reviews;
-  // }
 
   /**
    * Fetch all pending reviews from pendingReviewsDB
@@ -111,12 +100,6 @@ class DBHelper {
       store.add(review);
     })
   }
-
-  // static fetchReviewsByRestaurantOffline(restaurantId){
-  //   return this.fetchReviewsOffline()
-  //     .then(revs => revs.json());
-    
-  // }
 
   /**
    * Save review to Server
@@ -273,69 +256,69 @@ class DBHelper {
     );
     return marker;
   }
-
   
   /**
    * FAVORITES!!
    */
-  // THIS DOES NOT WORK
-  // static fetchRestaurantFromIDB(id){
-    // dbPromise.then(function(db) {
-    //   var tx = db.transaction('restaurants', 'readonly');
-    //   var store = tx.objectStore('restaurants');
-    //   store.get("1").onsuccess = function(event) {
-    //     var rest = event.target.result;
-    //     debugger;
-    //     if (rest == null) {
-    //         return ("restaurant not found");
-    //     }
-    //     else {
-    //         var jsonStr = JSON.stringify(rest);
-    //         console.log( jsonStr)
-    //     }
-    //   }
-    // })
 
-    // var store = dbPromise.db.transaction("restaurants").objectStore("restaurants");
-    // store.get(id).onsuccess = function(event) {
-    //   var rest = event.target.result;
-    //   if (rest == null) {
-    //       return ("restaurant not found");
-    //   }
-    //   else {
-    //       var jsonStr = JSON.stringify(employee);
-    //       return jsonStr
-    //   }
-    // }
-
-  // }
-
-  // THIS DOES NOT WORK BECAUSE fetchRestaurantFromIDB DOESN'T WORK
-  // static isFavorite(restaurant){
-  //   var isFavoriteRestaurant = DBHelper.fetchRestaurantFromIDB(restaurant)
-  //   .then(rest =>  {
-  //     return (rest.is_favorite);
-  //   })
-
-  //   return isFavoriteRestaurant;
-  // }
-
-
-  static fetchModifiedFavoritesRestaurantsFromIDB(){
+  /**
+  * Get all the restaurants pending of save in server (they have the variable updatedIsFavorite equal
+  * to true)
+  */
+  static getPendingFavoritesFromIDB(callback){
     DBHelper.fetchRestaurantsFromIDB((error, restaurants) => {
-      let modifiedFavorites = restaurants.filter( rest => rest.updatedIsFavorite == true);
-      console.log(modifiedFavorites);
+      if (error) {
+        callback(error, null);
+      } else {
+        const modifiedFavorites = restaurants.filter( rest => rest.updatedIsFavorite == true );
+        callback (null, modifiedFavorites);
+        // return (modifiedFavorites);
+      }
     })
   }
 
+  /**
+   * Toggle the variable pendingToUpdateFavorite or a restaurant
+   * @param {*} restaurant 
+   */
+  static togglePendingToUpdateFavoriteInLocal(restaurant){
 
-  static toggleUpdateIsFavoriteInLocal(restaurant){
-    // change the value of updatedIsFavorite, to mark a restaurant which has been its
-    // variable is_favorite changed
     restaurant.updatedIsFavorite = !restaurant.updatedIsFavorite;
+
+    var dbPromise = idb.open('restaurantDB');
+    return dbPromise.then ( db => {
+      var tx = db.transaction('restaurants', 'readwrite');
+      var store = tx.objectStore('restaurants');
+      return (store.put(restaurant));
+
+    })
+
   }
 
+  /**
+   * Sumbit the pending restaurants which had been modified and marked with the
+   * pendingToUpdateFavorite variable
+   */
+  static sumbitPendingFavorites () {
+      // when the is-favorite-submission message is received:
+      // - get the restaurants which have pendingToUpdateFavorite variable to true
+      // - upload it to online server
+      // - set the pendingToUpdateFavorite variable to false
+    DBHelper.getPendingFavoritesFromIDB((err, pendingFavorites) => {
 
+      pendingFavorites.forEach(restaurant => {
+        DBHelper.updateFavoriteInServer(restaurant, (error, fav) => {
+          if (error) {
+            console.log (error);
+            return;
+          }
+        })
+        
+        DBHelper.togglePendingToUpdateFavoriteInLocal(restaurant);
+      })
+
+    })
+  }
   
   /**
    * toggle is_favorite variable in local database
@@ -358,12 +341,12 @@ class DBHelper {
   }
 
   /**
-   * Uodate is_favorite in server
+   * Update is_favorite in server
    * @param {*} restaurant 
    * @param {*} callback 
    */
   static updateFavoriteInServer(restaurant, callback){
-    console.log(restaurant);
+    // console.log(restaurant);
     fetch(`${DBHelper.DATABASE_URL}/restaurants/${restaurant.id}/?is_favorite=${restaurant.is_favorite}`,
       {method: "PUT"})
       .then(response => {return (response.json())})
@@ -371,6 +354,38 @@ class DBHelper {
       .catch(error => {
         callback (error, null)
       });
+  }
+
+  /**
+   * Toggle favorite in local and in server
+   * 
+   * @param {*} restaurant 
+   */
+  static toggleFavorite (restaurant) {
+
+    DBHelper.toggleFavoriteInLocal(restaurant)
+    .then ( restID => {
+
+        DBHelper.updateFavoriteInServer(restaurant, (error, rest) => {
+            if (error) {
+                // if there are any error:
+                // is_favorite in local is already saved, so we have to 
+                // toggle variable pendingToUpdateFavorite in local
+                DBHelper.togglePendingToUpdateFavoriteInLocal(restaurant);
+
+                // register the background sync
+                navigator.serviceWorker.ready.then(function(reg) {
+                    reg.sync.register('is-favorite-submission');
+                    // console.log ('is_favorite sync registered!!')
+                });
+
+                console.log (error);
+                return;
+            }
+        })
+
+    })
+
   }
 
 }

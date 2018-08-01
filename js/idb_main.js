@@ -20,6 +20,11 @@ dbPromise.then(db => {
             var keyValStore = tx.objectStore('restaurants');
             // Add a field to check if is_favorite variable has been updated
             rest.updatedIsFavorite = false;
+
+            // some restaurants don't have the variable is_favorite:
+            if (!rest.is_favorite) {
+                rest.is_favorite = false;
+            }
             keyValStore.put(rest);
         })
     })

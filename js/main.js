@@ -7,13 +7,21 @@ var markers = []
 /**
  * Register the service worker
  */
-if (navigator.serviceWorker){
-  navigator.serviceWorker.register('sw.js').then(function(){
-    console.log('Registration worked!');
-    }).catch(function(){
-    console.log('Registration failed!');
-  });
+if (navigator.serviceWorker) {
+  navigator.serviceWorker
+    .register('sw.js')
+    .then(registration => navigator.serviceWorker.ready)
+    .then(() => {
+      console.log('Registration worked!!');
+    });
 }
+// if (navigator.serviceWorker){
+//   navigator.serviceWorker.register('sw.js').then(function(){
+//     console.log('Registration worked!');
+//     }).catch(function(){
+//     console.log('Registration failed!');
+//   });
+// }
 
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.

@@ -1,11 +1,8 @@
 
 /*
 * @function toggleCheckBox
-*
 * @desc Toogles the state of a checkbox and updates image indicating state based on aria-checked values
-*
 * @param   {Object}  event  -  Standard W3C event object
-*
 */
 
 function toggleCheckbox(event) {
@@ -32,53 +29,27 @@ function toggleCheckbox(event) {
       event.stopPropagation()
     }
   
-  }
+}
   
-  /*
-  * @function focusCheckBox
-  *
-  * @desc Adds focus to the class name of the checkbox
-  *
-  * @param   {Object}  event  -  Standard W3C event object
-  */
-  
-  function focusCheckbox(event) {
+/*
+* @function focusCheckBox
+* @desc Adds focus to the class name of the checkbox
+* @param   {Object}  event  -  Standard W3C event object
+*/
+
+function focusCheckbox(event) {
     event.currentTarget.className += ' focus'
-  }
+}
   
-  /*
-  * @function blurCheckBox
-  *
-  * @desc Adds focus to the class name of the checkbox
-  *
-  * @param   {Object}  event  -  Standard W3C event object
-  */
-  
-  function blurCheckbox(event) {
+/*
+* @function blurCheckBox
+* @desc Adds focus to the class name of the checkbox
+* @param   {Object}  event  -  Standard W3C event object
+*/
+
+function blurCheckbox(event) {
     event.currentTarget.className = event.currentTarget.className .replace(' focus','')
-  }
-
-  /**
-   * Toggle favorite in local and in server
-   * 
-   * @param {*} restaurant 
-   */
-  function toggleFavorite (restaurant) {
-
-    DBHelper.toggleFavoriteInLocal(restaurant)
-    .then ( restID => {
-        console.log (restID);
-        DBHelper.updateFavoriteInServer(restaurant, (error, rest) => {
-            if (error) {
-                console.log (error);
-                return;
-            }
-            console.log ("update is_favorite in Server of restaurant " + rest.name)
-        })
-    })
-
-
-  }
+}
 
 
 fillFavorite = (restaurant_id) => {
@@ -110,6 +81,7 @@ fillFavorite = (restaurant_id) => {
     //     // console.log(event.target)
     //     event.target.setAttribute('src', '../img/heart_highlight.svg');
     // }
+
     // // this does not work:
     // checkboxFavorite.onmouseout = (event) => {
     //     let node = event.currentTarget
@@ -124,7 +96,7 @@ fillFavorite = (restaurant_id) => {
 
     checkboxFavorite.onclick = (event) => {
         toggleCheckbox(event);
-        toggleFavorite(self.restaurant);
+        DBHelper.toggleFavorite(self.restaurant);
     }
 
     checkboxFavorite.onkeydown = (event) => {
@@ -132,6 +104,5 @@ fillFavorite = (restaurant_id) => {
     }
 
     favoriteContainer.appendChild(checkboxFavorite);
-
 
 }
