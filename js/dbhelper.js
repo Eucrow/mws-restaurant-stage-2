@@ -295,6 +295,24 @@ class DBHelper {
 
   }
 
+    /**
+   * Toggle the variable pendingToUpdateFavorite or a restaurant
+   * @param {*} restaurant 
+   */
+  static setPendingToUpdateFavoriteInLocal(restaurant, value){
+
+    restaurant.updatedIsFavorite = value;
+
+    var dbPromise = idb.open('restaurantDB');
+    return dbPromise.then ( db => {
+      var tx = db.transaction('restaurants', 'readwrite');
+      var store = tx.objectStore('restaurants');
+      return (store.put(restaurant));
+
+    })
+
+  }
+
   /**
    * Sumbit the pending restaurants which had been modified and marked with the
    * pendingToUpdateFavorite variable
@@ -305,7 +323,7 @@ class DBHelper {
       // - upload it to online server
       // - set the pendingToUpdateFavorite variable to false
     DBHelper.getPendingFavoritesFromIDB((err, pendingFavorites) => {
-
+      
       pendingFavorites.forEach(restaurant => {
         DBHelper.updateFavoriteInServer(restaurant, (error, fav) => {
           if (error) {
@@ -314,7 +332,9 @@ class DBHelper {
           }
         })
         
-        DBHelper.togglePendingToUpdateFavoriteInLocal(restaurant);
+        // DBHelper.togglePendingToUpdateFavoriteInLocal(restaurant);
+        DBHelper.setPendingToUpdateFavoriteInLocal(restaurant, false);
+        
       })
 
     })
@@ -362,16 +382,18 @@ class DBHelper {
    * @param {*} restaurant 
    */
   static toggleFavorite (restaurant) {
-
-    DBHelper.toggleFavoriteInLocal(restaurant)
-    .then ( restID => {
-
-        DBHelper.updateFavoriteInServer(restaurant, (error, rest) => {
-            if (error) {
+    
+    DBHelper.toggleFavoriteInLocal(restaurant);
+    
+    DBHelper.updateFavoriteInServer(restaurant, (error, rest) => {
+      
+      if (error) {
                 // if there are any error:
                 // is_favorite in local is already saved, so we have to 
                 // toggle variable pendingToUpdateFavorite in local
-                DBHelper.togglePendingToUpdateFavoriteInLocal(restaurant);
+                console.log(error)
+                // DBHelper.togglePendingToUpdateFavoriteInLocal(restaurant);
+                DBHelper.setPendingToUpdateFavoriteInLocal(restaurant, true)
 
                 // register the background sync
                 navigator.serviceWorker.ready.then(function(reg) {
@@ -382,9 +404,9 @@ class DBHelper {
                 console.log (error);
                 return;
             }
-        })
+      
 
-    })
+      })
 
   }
 

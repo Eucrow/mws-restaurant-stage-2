@@ -49,26 +49,29 @@ window.onload = function () {
             fillReviews();
         });
 
-        // event listener of the message sended when the conection is ready
-        navigator.serviceWorker.addEventListener('message', message => {
 
-            if (message.data === "review-submission") {
-      
-                DBHelper.fetchPendingReviewsFromIDB()
-                .then(revs => {
-                    revs.forEach(rev => {
-                        DBHelper.saveReviewToServer(rev);
-                    })
-                    
-                })
-                .then(DBHelper.clearPendingReviewsIDB(r => console.log(r)));
-            }
-
-            if (message.data === "is-favorite-submission") {
-                DBHelper.sumbitPendingFavorites()
-            }
-        })
     }
+
+    // event listener of the message sended when the conection is ready
+    navigator.serviceWorker.addEventListener('message', message => {
+
+        if (message.data === "review-submission") {
+    
+            DBHelper.fetchPendingReviewsFromIDB()
+            .then(revs => {
+                revs.forEach(rev => {
+                    DBHelper.saveReviewToServer(rev);
+                })
+                
+            })
+            .then(DBHelper.clearPendingReviewsIDB(r => console.log(r)));
+        }
+
+        if (message.data === "is-favorite-submission") {
+            DBHelper.sumbitPendingFavorites();
+            debugger
+        }
+    })
 
 }
     

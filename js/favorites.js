@@ -96,6 +96,7 @@ fillFavorite = (restaurant_id) => {
 
     checkboxFavorite.onclick = (event) => {
         toggleCheckbox(event);
+        
         DBHelper.toggleFavorite(self.restaurant);
     }
 
