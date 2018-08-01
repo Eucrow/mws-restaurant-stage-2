@@ -1,4 +1,4 @@
-const staticCacheName = 'restaurant-review-v153';
+const staticCacheName = 'restaurant-review-v154';
 
 self.addEventListener('install', function(event){
   event.waitUntil(
@@ -14,7 +14,7 @@ self.addEventListener('install', function(event){
         'js/idb.js',
         'js/main.js',
         'js/rating_stars.js',
-        'js/rating.js',
+        'js/onload_restaurant.js',
         'js/restaurant_info.js',
         // 'sw.js', // The service worker itself musn't be cached
         'css/styles.css',
@@ -50,7 +50,11 @@ self.addEventListener('install', function(event){
         'img/10_800.webp',
         'img/nia_350.webp',
         'img/nia_700.webp',
-        'img/nia_800.webp'
+        'img/nia_800.webp',
+        'img/heart_highlight.svg',
+        'img/heart_normal.svg',
+        'img/star_highlight.svg',
+        'img/star_normal.svg'
       ]);
     })
   );
