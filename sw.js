@@ -1,8 +1,4 @@
-<<<<<<< Updated upstream
-const staticCacheName = 'restaurant-review-v146';
-=======
-const staticCacheName = 'restaurant-review-v149';
->>>>>>> Stashed changes
+const staticCacheName = 'restaurant-review-v153';
 
 self.addEventListener('install', function(event){
   event.waitUntil(
@@ -12,6 +8,7 @@ self.addEventListener('install', function(event){
         'restaurant.html',
         'manifest.json',
         'js/dbhelper.js',
+        'js/favorites.js',
         'js/idb_main.js',
         'js/idb_restaurant_info.js',
         'js/idb.js',
@@ -114,10 +111,16 @@ function postMessageToClients(message) {
 };
 
 
-// event listener of the backgroun syn. When the conection is ready, send a message to the clients:
+// event listener of the background sync. When the conection is ready, send a message to the clients:
 self.addEventListener('sync', function (event) {
   // console.log("inside sync")
   if (event.tag === 'review-submission') {
     event.waitUntil(postMessageToClients(event.tag));
   }
+
+  if (event.tag === 'is-favorite-submission') {
+    // console.log ( "inside sync listener: " + event.tag);
+    event.waitUntil(postMessageToClients(event.tag));
+  }
+
 });

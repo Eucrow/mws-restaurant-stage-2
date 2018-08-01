@@ -56,7 +56,6 @@ window.onload = function () {
       
                 DBHelper.fetchPendingReviewsFromIDB()
                 .then(revs => {
-                    // console.log("Here I've to save the pendigns reviews");
                     revs.forEach(rev => {
                         DBHelper.saveReviewToServer(rev);
                     })
@@ -64,7 +63,11 @@ window.onload = function () {
                 })
                 .then(DBHelper.clearPendingReviewsIDB(r => console.log(r)));
             }
-          })
+
+            if (message.data === "is-favorite-submission") {
+                DBHelper.sumbitPendingFavorites()
+            }
+        })
     }
 
 }
