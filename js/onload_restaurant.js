@@ -3,6 +3,7 @@ window.onload = function () {
     const offline_event = new Event("offline_event");
 
     const form = document.getElementById('form-review');
+    // debugger
     if (form){
         form.addEventListener('submit', function (e) {
             e.preventDefault();
@@ -49,28 +50,28 @@ window.onload = function () {
             fillReviews();
         });
 
+        // event listener of the message sended when the conection is ready
+        navigator.serviceWorker.addEventListener('message', message => {
+    
+            if (message.data === "review-submission") {
+        
+                DBHelper.fetchPendingReviewsFromIDB()
+                .then(revs => {
+                    revs.forEach(rev => {
+                        DBHelper.saveReviewToServer(rev);
+                    })
+                    
+                })
+                .then(DBHelper.clearPendingReviewsIDB(r => console.log(r)));
+            }
+    
+            if (message.data === "is-favorite-submission") {
+                DBHelper.sumbitPendingFavorites();
+            }
+        })
 
     }
 
-    // event listener of the message sended when the conection is ready
-    navigator.serviceWorker.addEventListener('message', message => {
-
-        if (message.data === "review-submission") {
-    
-            DBHelper.fetchPendingReviewsFromIDB()
-            .then(revs => {
-                revs.forEach(rev => {
-                    DBHelper.saveReviewToServer(rev);
-                })
-                
-            })
-            .then(DBHelper.clearPendingReviewsIDB(r => console.log(r)));
-        }
-
-        if (message.data === "is-favorite-submission") {
-            DBHelper.sumbitPendingFavorites();
-        }
-    })
 
 }
     

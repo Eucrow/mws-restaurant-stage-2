@@ -90,13 +90,61 @@ updateRate = (id) => {
 fillFormReview = (restaurant_id) => {
 
     // const formReview = document.getElementById('form-review');
-    const formReview = document.getElementById('form-review-container');
-    formReview.classList.add('form-review-container');
+    const formReviewContainer = document.getElementById('form-review-container');
+    formReviewContainer.classList.add('form-review-container');
 
+    
     const titleFormReview = document.createElement("h3");
     titleFormReview.innerHTML = "Send your own review:";
     titleFormReview.setAttribute('id', 'title-form-review');
-    formReview.appendChild(titleFormReview);
+    formReviewContainer.appendChild(titleFormReview);
+
+    const formReview = document.createElement('form');
+    formReview.setAttribute('action','');
+    formReview.setAttribute('method','post');
+    formReview.setAttribute('id','form-review');
+    formReview.classList.add('form-review');
+    
+/*************** */
+    formReview.addEventListener('submit', function (e) {
+        e.preventDefault();
+        formData = new FormData(formReview)
+        debugger
+        DBHelper.saveReviewToServer(formData).then( () => {
+            formReview.dispatchEvent(reload_reviews_event);
+        })
+        .then(fillReviews())
+        .then(formReview.reset())
+        // when the submit doesn't work, save the content of the form in the pending reviews database
+        .catch(e => {
+
+            // convert formData to javascript object because indexedDB doesn't work with formData
+            var object = {};
+            formData.forEach(function(value, key){
+                object[key] = value;
+            });
+            // add createdAt to object
+            now = Date.now();
+            object.createdAt = now;
+
+            DBHelper.savePendingReview(object)
+            .then(addPendingReviewToHTML(object))
+            .then(formReview.reset())
+
+            // console.log('The form is saved in pendingReviews');
+            
+            // register the background sync
+            navigator.serviceWorker.ready.then(function(reg) {
+                reg.sync.register('review-submission');
+                // console.log ('Sync registered!!')
+            });
+
+        });
+    });
+/*************** */
+
+
+
 
     const restaurantId = document.createElement("input");
     restaurantId.setAttribute('type', 'hidden');
@@ -219,7 +267,11 @@ fillFormReview = (restaurant_id) => {
     }
     formReview.appendChild(submitField);
 
-    return formReview;
+    formReviewContainer.appendChild(formReview);
+    
+
+
+    return formReviewContainer;
 
 } 
 
