@@ -43,8 +43,8 @@ gulp.task('scripts', gulp.series(function(){
         })
 )
 
-// Concat to distribution (contain minification)
-gulp.task('scripts-dist', gulp.series('minify-css', 'minify-html', function(){
+// Concat db.js to distribution (contain minification)
+gulp.task('scripts-dist-db', gulp.series('minify-css', 'minify-html', function(){
     return gulp.src(['./js/idb.js',
                     './js/dbhelper.js',
                     './js/idb_main.js'])
@@ -54,6 +54,21 @@ gulp.task('scripts-dist', gulp.series('minify-css', 'minify-html', function(){
         .pipe(gulp.dest('dist/js'));
     })
 )
+
+// Concat restaurant.js to distribution (contain minification)
+gulp.task('scripts-dist-restaurant', gulp.series('minify-css', 'minify-html', function(){
+    return gulp.src(['./js/onload_restaurant.js',
+                    './js/idb_restaurant_info.js',
+                    './js/rating_stars.js',
+                    './js/favorites.js',
+                    './js/restaurant_info.js'])
+        .pipe(concat('restaurant.js'))
+        .pipe(minify())
+        // .pipe(uglify()) // minify
+        .pipe(gulp.dest('dist/js'));
+    })
+)
+
 // Copy manifest.json and sw.js to dist directory
 gulp.task('copy-files-1', function(){
     return gulp.src(['manifest.json', 'sw.js'])
@@ -89,7 +104,7 @@ gulp.task('default', gulp.series(
 
 // Default task to distribution
 gulp.task('default-dist', gulp.series(
-    'scripts-dist',
+    'scripts-dist-db',
     'copy-files-1',
     'copy-files-2',
     'copy-icons'));
