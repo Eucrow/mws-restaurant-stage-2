@@ -57,11 +57,13 @@ gulp.task('scripts-dist-db', gulp.series('minify-css', 'minify-html', function()
 
 // Concat restaurant.js to distribution (contain minification)
 gulp.task('scripts-dist-restaurant', gulp.series('minify-css', 'minify-html', function(){
-    return gulp.src(['./js/onload_restaurant.js',
-                    './js/idb_restaurant_info.js',
+    return gulp.src([
+                    './js/restaurant_info.js',
                     './js/rating_stars.js',
+                    './js/idb_restaurant_info.js',
+                    './js/onload_restaurant.js',
                     './js/favorites.js',
-                    './js/restaurant_info.js'])
+                ])
         .pipe(concat('restaurant.js'))
         .pipe(minify())
         // .pipe(uglify()) // minify
@@ -76,15 +78,21 @@ gulp.task('copy-files-1', function(){
 })
 
 
-// Copy main.js and restaurant_info.js to dist directory
+// Copy main.js to dist directory
 gulp.task('copy-files-2', function(){
-    return gulp.src(['./js/main.js', './js/restaurant_info.js'])
+    return gulp.src(['./js/main.js'])
         .pipe(gulp.dest('./dist/js'));
 })
 
 // Copy icons to img directory
 gulp.task('copy-icons', function(){
     return gulp.src(['./icon_192.png', './icon_512.png'])
+        .pipe(gulp.dest('./dist/img'));
+})
+
+// Copy images to img directory
+gulp.task('copy-images', function(){
+    return gulp.src(['./img/*.webp', './img/*.svg'])
         .pipe(gulp.dest('./dist/img'));
 })
 
@@ -100,15 +108,29 @@ gulp.task('default', gulp.series(
     'copy-files-1',
     'copy-files-2',
     'copy-icons'));
-
-
+    
+    
 // Default task to distribution
 gulp.task('default-dist', gulp.series(
     'scripts-dist-db',
+    'scripts-dist-restaurant',
+    'copy-html',
+    'copy-images',
     'copy-files-1',
     'copy-files-2',
     'copy-icons'));
 
+// Static Server + watching scss/html files
+gulp.task('serve-dist', gulp.series('default-dist', function() {
+
+    browserSync.init({
+        server: "./dist",
+        port: 8000,
+        browser: 'chrome'
+    });
+    browserSync.stream();
+
+}));
 
 // Static Server + watching scss/html files
 gulp.task('serve', gulp.series(function() {
