@@ -1,11 +1,11 @@
 window.onload = function () {
-    const reload_reviews_event = new Event("reload_reviews_event");
+    // const reload_reviews_event = new Event("reload_reviews_event");
     const offline_event = new Event("offline_event");
     
     navigator.serviceWorker.addEventListener('message', message => {
 
         if (message.data === "review-submission") {
-    
+            console.log ("sending a review-submission message")
             DBHelper.fetchPendingReviewsFromIDB()
             .then(revs => {
                 revs.forEach(rev => {

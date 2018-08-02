@@ -11,6 +11,11 @@ var VK_DOWN       = 40;
 // variable to manage the star rating focused
 var focusedIdx = 0;
 
+
+// Event to reload the reviews section:
+const reload_reviews_event = new Event("reload_reviews_event");
+
+
 /**
  * Remove the higlight in all the elements (stars) of rating
  */
@@ -107,6 +112,7 @@ fillFormReview = (restaurant_id) => {
     
 /*************** */
     formReview.addEventListener('submit', function (e) {
+        // console.log ("event submit dispatched")
         e.preventDefault();
         formData = new FormData(formReview)
         // debugger
@@ -117,7 +123,7 @@ fillFormReview = (restaurant_id) => {
         .then(formReview.reset())
         // when the submit doesn't work, save the content of the form in the pending reviews database
         .catch(e => {
-
+            console.log (e)
             // convert formData to javascript object because indexedDB doesn't work with formData
             var object = {};
             formData.forEach(function(value, key){
