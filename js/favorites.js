@@ -72,7 +72,7 @@ fillFavorite = (restaurant_id) => {
     checkboxFavorite.classList.add('checkbox-favorite');
 
     let imageFavorite = document.createElement('img');
-    let nameImage = isFavorite == true? "heart_highlight.svg": "heart_normal.svg"
+    let nameImage = (isFavorite == true || isFavorite == "true")? "heart_highlight.svg": "heart_normal.svg"
     imageFavorite.setAttribute('src', '../img/' + nameImage);
     imageFavorite.setAttribute('id', 'image-favorite');
     imageFavorite.setAttribute('alt', 'Mark as favorite');
