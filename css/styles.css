@@ -285,6 +285,12 @@ box-shadow: 0px 0px 4px 3px rgba(31, 87, 124,0.75);
         vertical-align: top;
       }
       /* ============ Favorite Restaurant ============ */
+      .favorite-container{
+        width: 100%;
+        padding: 20px 10px;
+        order: 3;
+      }
+
       .checkbox-favorite {
         /* background: url('../img/heart_normal.svg') no-repeat; */
         width:24px;
@@ -305,10 +311,25 @@ box-shadow: 0px 0px 4px 3px rgba(31, 87, 124,0.75);
       }
 
 /* ============ Restaurant Reviews ============ */
+.form-review-container{
+  width: 100%;
+  max-width: 680px;
+  padding: 20px 10px;
+  order: 4;
+}
+  .form-review-container * {
+    display: block;
+  }
+  .form-review-container [type ='text'],
+  .form-review-container textarea{
+    width: 100%;
+
+  }
+
 .reviews-container{
   width: 100%;
   padding: 20px 0 0 0;
-  order: 3;
+  order: 5;
 }
   .reviews-container h3{
     padding: 0 10px;
@@ -326,6 +347,7 @@ box-shadow: 0px 0px 4px 3px rgba(31, 87, 124,0.75);
       width: 100%;
       list-style-type: none;
     }
+
     .review-header{
       background-color: #333;
       padding: 5px 10px;

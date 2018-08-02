@@ -89,7 +89,9 @@ updateRate = (id) => {
 
 fillFormReview = (restaurant_id) => {
 
-    const formReview = document.getElementById('form-review');
+    // const formReview = document.getElementById('form-review');
+    const formReview = document.getElementById('form-review-container');
+    formReview.classList.add('form-review-container');
 
     const titleFormReview = document.createElement("h3");
     titleFormReview.innerHTML = "Send your own review:";

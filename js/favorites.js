@@ -56,6 +56,10 @@ fillFavorite = (restaurant_id) => {
     favoriteContainer = document.getElementById('favorite-container');
     favoriteContainer.classList.add('favorite-container');
 
+    titleFavorite = document.createElement('h3');
+    titleFavorite.innerHTML = 'Mark as favorite: '
+    favoriteContainer.appendChild(titleFavorite);
+
     let checkboxFavorite = document.createElement('div');
     checkboxFavorite.setAttribute('id', 'checkbox-favorite');
     checkboxFavorite.setAttribute('type', 'checkbox');

@@ -120,6 +120,7 @@ gulp.task('convertToWEBP', () =>
         .pipe(webp())
         .pipe(gulp.dest('./img/'))
 );
+
 // optimización de imágenes de usuario para responsive
 // se debería hacer en el backend
 gulp.task('responsive', gulp.series(function(){
