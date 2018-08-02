@@ -109,9 +109,9 @@ fillFormReview = (restaurant_id) => {
     formReview.addEventListener('submit', function (e) {
         e.preventDefault();
         formData = new FormData(formReview)
-        debugger
+        // debugger
         DBHelper.saveReviewToServer(formData).then( () => {
-            formReview.dispatchEvent(reload_reviews_event);
+            document.dispatchEvent(reload_reviews_event);
         })
         .then(fillReviews())
         .then(formReview.reset())
