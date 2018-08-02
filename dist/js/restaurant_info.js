@@ -182,7 +182,6 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
  * Create all reviews HTML and add them to the webpage.
  */
 fillReviews = () => {
-  console.log ('inside fillReviews')
   DBHelper.fetchReviewsByRestaurantFromServer(self.restaurant.id)
     .then(reviews => fillReviewsHTML(reviews))
     .catch((err) => {
