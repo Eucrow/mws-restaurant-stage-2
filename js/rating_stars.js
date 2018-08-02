@@ -141,6 +141,10 @@ fillFormReview = (restaurant_id) => {
 
         });
     });
+
+    formReview.addEventListener('reload_reviews_event', function(e){
+        fillReviews();
+    });
 /*************** */
 
 
