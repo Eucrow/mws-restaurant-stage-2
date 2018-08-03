@@ -198,6 +198,7 @@ addPendingReviewToHTML = (review) => {
 }
 
 fillReviewsHTML = (reviews) => {
+  // debugger
   // console.log('inside fillReviewsHTML');
   const container = document.getElementById('reviews-container');
   /* when a review is published, the reviews-list must be updated, so: */
@@ -218,6 +219,7 @@ fillReviewsHTML = (reviews) => {
   }
   const ul = document.getElementById('reviews-list');
   reviews.forEach(review => {
+    // debugger
     ul.appendChild(createReviewHTML(review));
   });
   container.appendChild(ul);
