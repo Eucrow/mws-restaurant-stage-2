@@ -198,9 +198,9 @@ addPendingReviewToHTML = (review) => {
 }
 
 fillReviewsHTML = (reviews) => {
-  
+  console.log('inside fillReviewsHTML');
   const container = document.getElementById('reviews-container');
-
+debugger
   /* when a review is published, the reviews-list must be updated, so: */
   if (document.getElementById('reviews-list')) {
     document.getElementById('reviews-list').innerHTML = "";
