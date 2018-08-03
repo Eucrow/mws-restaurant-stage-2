@@ -1,4 +1,4 @@
-const staticCacheName = 'restaurant-review-v202';
+const staticCacheName = 'restaurant-review-v207';
 
 self.addEventListener('install', function(event){
   event.waitUntil(
@@ -9,20 +9,20 @@ self.addEventListener('install', function(event){
         'restaurant.html',
         'manifest.json',
         // dist
-        'dist/js/db.js',
-        'dist/js/main.js',
-        'dist/js/restaurant.js',
+        // 'dist/js/db.js',
+        // 'dist/js/main.js',
+        // 'dist/js/restaurant.js',
         // end of dist
         // develop
-        // 'js/dbhelper.js',
-        // 'js/favorites.js',
-        // 'js/idb_main.js',
-        // 'js/idb_restaurant_info.js',
-        // 'js/idb.js',
-        // 'js/main.js',
-        // 'js/rating_stars.js',
-        // 'js/onload_restaurant.js',
-        // 'js/restaurant_info.js',
+        'js/dbhelper.js',
+        'js/favorites.js',
+        'js/idb_main.js',
+        'js/idb_restaurant_info.js',
+        'js/idb.js',
+        'js/main.js',
+        'js/rating_stars.js',
+        'js/onload_restaurant.js',
+        'js/restaurant_info.js',
         // end of develop
         'css/styles.css',
         'img/1_350.webp',

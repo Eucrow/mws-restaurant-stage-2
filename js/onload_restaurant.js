@@ -5,7 +5,7 @@ window.onload = function () {
     navigator.serviceWorker.addEventListener('message', message => {
 
         if (message.data === "review-submission") {
-            console.log ("sending a review-submission message")
+            // console.log ("sending a review-submission message")
             DBHelper.fetchPendingReviewsFromIDB()
             .then(revs => {
                 revs.forEach(rev => {

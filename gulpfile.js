@@ -114,7 +114,8 @@ gulp.task('default', gulp.series(
 gulp.task('default-dist', gulp.series(
     'scripts-dist-db',
     'scripts-dist-restaurant',
-    'copy-html',
+    'minify-html',
+    'minify-css',
     'copy-images',
     'copy-files-1',
     'copy-files-2',
@@ -129,6 +130,13 @@ gulp.task('serve-dist', gulp.series('default-dist', function() {
         browser: 'chrome'
     });
     browserSync.stream();
+
+    gulp.watch("*.html").on('change', browserSync.reload);
+    gulp.watch("*.js").on('change', browserSync.reload);
+    gulp.watch("**/*.js").on('change', browserSync.reload);
+    gulp.watch("/js/*.js").on('change', browserSync.reload);
+    gulp.watch("**/*.css").on("change", browserSync.reload);
+    gulp.watch("manifest.json").on("change", browserSync.reload);
 
 }));
 

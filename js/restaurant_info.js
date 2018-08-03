@@ -10,7 +10,7 @@ if (navigator.serviceWorker) {
     .register('sw.js')
     .then(registration => navigator.serviceWorker.ready)
     .then(() => {
-      console.log('Registration worked!!');
+      // console.log('Registration worked!!');
     });
 }
 
@@ -182,7 +182,7 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
  * Create all reviews HTML and add them to the webpage.
  */
 fillReviews = () => {
-  console.log ('inside fillReviews')
+  // console.log ('inside fillReviews')
   DBHelper.fetchReviewsByRestaurantFromServer(self.restaurant.id)
     .then(reviews => fillReviewsHTML(reviews))
     .catch((err) => {
@@ -198,9 +198,8 @@ addPendingReviewToHTML = (review) => {
 }
 
 fillReviewsHTML = (reviews) => {
-  console.log('inside fillReviewsHTML');
+  // console.log('inside fillReviewsHTML');
   const container = document.getElementById('reviews-container');
-debugger
   /* when a review is published, the reviews-list must be updated, so: */
   if (document.getElementById('reviews-list')) {
     document.getElementById('reviews-list').innerHTML = "";

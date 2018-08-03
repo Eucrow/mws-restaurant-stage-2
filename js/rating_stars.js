@@ -112,7 +112,7 @@ fillFormReview = (restaurant_id) => {
     
 /*************** */
     formReview.addEventListener('submit', function (e) {
-        console.log ("event submit dispatched")
+        // console.log ("event submit dispatched")
         e.preventDefault();
         formData = new FormData(formReview)
         // debugger
@@ -149,7 +149,7 @@ fillFormReview = (restaurant_id) => {
     });
 
     formReview.addEventListener('reload_reviews_event', function(e){
-        console.log('inside reload_reviews_event');
+        // console.log('inside reload_reviews_event');
         fillReviews();
     });
 /*************** */
