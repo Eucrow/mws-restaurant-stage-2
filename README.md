@@ -7,16 +7,18 @@ This exercise is a fork of https://github.com/udacity/mws-restaurant-stage-3 whi
 
 ### Installing node server
 
-First, clone (or download and extract) this repository with a node server in your computer following the instrucctions in its README.md file:
-
+Previously clone this repository in your computer following the instrucctions in its README.md file:
 ```https://github.com/udacity/mws-restaurant-stage-3```
 
 Now, inside the folder where the repostory is, run in a console:
 
 ```node server```
 
+### Clone this repository
+Clone this repository or download and extract
+
 ### Installing dependences
-After clone this repository, install dependencies (in the folder where the repository has been installed) in a console with:
+To install dependencies, in the folder where the repository has been cloned, run in a console:
 
 ```npm install```
 
