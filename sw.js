@@ -1,4 +1,4 @@
-const staticCacheName = 'restaurant-review-v227';
+const staticCacheName = 'restaurant-review-v228';
 
 self.addEventListener('install', function(event){
   event.waitUntil(
@@ -82,35 +82,6 @@ self.addEventListener('activate', function(event){
   );
 });
 
-// self.addEventListener('fetch', function(event){
-//   const url = new URL(event.request.url);
-//   // console.log ("inside fetch event")
-//   console.log (url.pathname)
-//   if (url.pathname.startsWith('/restaurant.html')) {
-//         console.log ("pathname starts with /restaurant.html")
-//         event.respondWith(
-//             caches.match('restaurant.html').then(response => response || fetch(event.request))
-//         );
-//         return;
-//   } else {
-//     event.respondWith(
-//       caches.match(event.request).then(response => response || fetch(event.request))
-//     );
-//   }
-//   // I think this work in the same way:
-//   // event.respondWith(
-  
-//   //   caches.match(event.request, {ignoreSearch:true}).then(function(response){
-//   //     if (response){
-//   //       console.log('Found ', event.request.url, ' in cache');
-//   //       return response;
-//   //     }
-//   //     return fetch(event.request);
-//   //   })
-//   // );
-// });
-
-// console.log("ppp")
 self.addEventListener('fetch', function(event){
   // const url = new URL(event.request.url);
   // // console.log(url.pathname)
@@ -134,9 +105,10 @@ self.addEventListener('fetch', function(event){
   
     caches.match(event.request, {ignoreSearch:true}).then(function(response){
       if (response){
-        console.log('Found ', event.request.url, ' in cache');
+        // console.log('Found ', event.request.url, ' in cache');
         return response;
-      } else {console.log('NOT FOUND ', event.request.url, ' in cache'); }
+      } 
+      // else {console.log('NOT FOUND ', event.request.url, ' in cache'); }
       return fetch(event.request);
     })
   );
