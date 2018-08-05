@@ -5,6 +5,7 @@ window.onload = function () {
     navigator.serviceWorker.addEventListener('message', message => {
 
         if (message.data === "review-submission") {
+            // when the conection is ready, send the pendigs reviews to server
             // console.log ("sending a review-submission message")
             DBHelper.fetchPendingReviewsFromIDB()
             .then(revs => {

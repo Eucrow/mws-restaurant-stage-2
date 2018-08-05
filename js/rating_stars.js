@@ -116,36 +116,27 @@ fillFormReview = (restaurant_id) => {
         e.preventDefault();
         formData = new FormData(formReview)
         // debugger
-        DBHelper.saveReviewToServer(formData).then( () => {
-            document.dispatchEvent(reload_reviews_event);
-        })
-        .then(fillReviews())
-        .then(formReview.reset())
-        // when the submit doesn't work, save the content of the form in the pending reviews database
-        .catch(e => {
-            console.log (e)
-            // convert formData to javascript object because indexedDB doesn't work with formData
-            var object = {};
-            formData.forEach(function(value, key){
-                object[key] = value;
-            });
-            // add createdAt to object
-            now = Date.now();
-            object.createdAt = now;
 
-            DBHelper.savePendingReview(object)
-            .then(addPendingReviewToHTML(object))
-            .then(formReview.reset())
-
-            // console.log('The form is saved in pendingReviews');
-            
-            // register the background sync
-            navigator.serviceWorker.ready.then(function(reg) {
-                reg.sync.register('review-submission');
-                // console.log ('Sync registered!!')
-            });
-
+        // 1. save data to local DB and show in web
+        var object = {};
+        formData.forEach(function(value, key){
+            object[key] = value;
         });
+        // add createdAt to object
+        now = Date.now();
+        object.createdAt = now;
+
+        // before send the reviews to server, save it in local DB
+        DBHelper.savePendingReview(object)
+        .then(addPendingReviewToHTML(object))
+        .then(formReview.reset())
+
+        // 2. register the background sync (which will send the review to server, when it is ready)
+        navigator.serviceWorker.ready.then(function(reg) {
+            reg.sync.register('review-submission');
+            // console.log ('Sync registered!!')
+        });
+
     });
 
     formReview.addEventListener('reload_reviews_event', function(e){
