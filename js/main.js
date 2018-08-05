@@ -12,7 +12,7 @@ if (navigator.serviceWorker) {
     .register('sw.js')
     .then(registration => navigator.serviceWorker.ready)
     .then(() => {
-      // console.log('Registration worked!!');
+      console.log('Registration worked!!');
     });
 }
 // if (navigator.serviceWorker){

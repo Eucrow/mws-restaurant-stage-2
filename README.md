@@ -1,9 +1,10 @@
 # Project Stage 3 -- Mobile Web Specialist Certification Course
 
 Final stage of the Mobile Web Specialist Certification Course.
-This exercise is a fork of https://github.com/udacity/mws-restaurant-stage-3 whit the improvements asked in the course: https://review.udacity.com/#!/rubrics/1132/view
+The requisites of the exercise are in: https://review.udacity.com/#!/rubrics/1132/view
 
 ## Getting started
+In order to check the functionality of the app:
 
 ### Installing node server
 
