@@ -1,4 +1,4 @@
-const staticCacheName = 'restaurant-review-v207';
+const staticCacheName = 'restaurant-review-v225';
 
 self.addEventListener('install', function(event){
   event.waitUntil(
@@ -82,32 +82,64 @@ self.addEventListener('activate', function(event){
   );
 });
 
-self.addEventListener('fetch', function(event){
-
-  const url = new URL(event.request.url);
+// self.addEventListener('fetch', function(event){
+//   const url = new URL(event.request.url);
+//   // console.log ("inside fetch event")
+//   console.log (url.pathname)
+//   if (url.pathname.startsWith('/restaurant.html')) {
+//         console.log ("pathname starts with /restaurant.html")
+//         event.respondWith(
+//             caches.match('restaurant.html').then(response => response || fetch(event.request))
+//         );
+//         return;
+//   } else {
+//     event.respondWith(
+//       caches.match(event.request).then(response => response || fetch(event.request))
+//     );
+//   }
+//   // I think this work in the same way:
+//   // event.respondWith(
   
-  if (url.pathname.startsWith('/restaurant.html')) {
-        event.respondWith(
-            caches.match('restaurant.html').then(response => response || fetch(event.request))
-        );
-        return;
-  } else {
-    event.respondWith(
-      caches.match(event.request).then(response => response || fetch(event.request))
-    );
-  }
+//   //   caches.match(event.request, {ignoreSearch:true}).then(function(response){
+//   //     if (response){
+//   //       console.log('Found ', event.request.url, ' in cache');
+//   //       return response;
+//   //     }
+//   //     return fetch(event.request);
+//   //   })
+//   // );
+// });
+
+// console.log("ppp")
+self.addEventListener('fetch', function(event){
+  // const url = new URL(event.request.url);
+  // // console.log(url.pathname)
+  // // debugger
+  // if (url.pathname.startsWith('/restaurant.html')) {
+  //   console.log ("pathname starts with /restaurant.html")
+  //       event.respondWith(
+  //           caches.match('restaurant.html').then(response => response || fetch(event.request))
+  //       );
+  //       return;
+  // } else {
+  //   console.log ("it's not restaurant.html")
+  //   event.respondWith(
+  //     caches.match(event.request).then(response => response || fetch(event.request))
+  //     .catch(e => console.log(e))
+  //   );
+  // }
 
   // I think this work in the same way:
-  // event.respondWith(
+  event.respondWith(
   
-  //   caches.match(event.request, {ignoreSearch:true}).then(function(response){
-  //     if (response){
-  //       console.log('Found ', event.request.url, ' in cache');
-  //       return response;
-  //     }
-  //     return fetch(event.request);
-  //   })
-  // );
+    caches.match(event.request, {ignoreSearch:true}).then(function(response){
+      if (response){
+        console.log('Found ', event.request.url, ' in cache');
+        return response;
+      } else {console.log('NOT FOUND ', event.request.url, ' in cache'); }
+      return fetch(event.request);
+    })
+  );
   
 
 });
