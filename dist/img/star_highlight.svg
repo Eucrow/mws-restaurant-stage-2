@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 72 73" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
+    <g transform="matrix(1,0,0,1,-79,-75)">
+        <g id="star_highlight" transform="matrix(0.911392,0,0,1.30909,120.013,78.2819)">
+            <rect x="-45" y="-2" width="79" height="55" style="fill:none;"/>
+            <clipPath id="_clip1">
+                <rect x="-45" y="-2" width="79" height="55"/>
+            </clipPath>
+            <g clip-path="url(#_clip1)">
+                <g transform="matrix(1.25708,0,0,0.917804,-60.9362,-13.0697)">
+                    <path d="M44.216,12.064C45.012,12.185 45.568,12.421 45.956,13.425L52.47,33.473L73.483,33.473C73.483,33.473 75.031,33.697 75.422,34.797C75.695,35.565 75.383,36.437 74.726,36.968L57.639,49.382L64.177,69.505C64.177,69.505 64.42,70.542 63.856,71.252C63.206,72.071 61.889,72.219 60.978,71.627L44,59.291L27.022,71.627C27.022,71.627 23.025,72.51 23.823,69.505L30.361,49.382L13.274,36.968C13.274,36.968 11.306,33.632 14.517,33.473L35.53,33.473L42.044,13.425C42.044,13.425 42.802,11.992 44.216,12.064Z" style="fill:rgb(206,110,1);"/>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
