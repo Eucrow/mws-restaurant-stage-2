@@ -84,6 +84,12 @@ gulp.task('copy-files-2', function(){
         .pipe(gulp.dest('./dist/js'));
 })
 
+// Copy all js to dist directory --> only because concat doesn't work properly :(
+gulp.task('copy-js-files', function(){
+    return gulp.src(['./js/*.js'])
+        .pipe(gulp.dest('./dist/js'));
+})
+
 // Copy icons to img directory
 gulp.task('copy-icons', function(){
     return gulp.src(['./icon_192.png', './icon_512.png'])
@@ -112,8 +118,10 @@ gulp.task('default', gulp.series(
     
 // Default task to distribution
 gulp.task('default-dist', gulp.series(
-    'scripts-dist-db',
-    'scripts-dist-restaurant',
+    // concat doesn't seems to work in the right way, so I just copy the js files to dist/js
+    // 'scripts-dist-db',
+    // 'scripts-dist-restaurant',
+    'copy-js-files',
     'minify-html',
     'minify-css',
     'copy-images',
@@ -131,12 +139,12 @@ gulp.task('serve-dist', gulp.series('default-dist', function() {
     });
     browserSync.stream();
 
-    gulp.watch("*.html").on('change', browserSync.reload);
-    gulp.watch("*.js").on('change', browserSync.reload);
-    gulp.watch("**/*.js").on('change', browserSync.reload);
-    gulp.watch("/js/*.js").on('change', browserSync.reload);
-    gulp.watch("**/*.css").on("change", browserSync.reload);
-    gulp.watch("manifest.json").on("change", browserSync.reload);
+    // gulp.watch("*.html").on('change', browserSync.reload);
+    // gulp.watch("*.js").on('change', browserSync.reload);
+    // gulp.watch("**/*.js").on('change', browserSync.reload);
+    // gulp.watch("/js/*.js").on('change', browserSync.reload);
+    // gulp.watch("**/*.css").on("change", browserSync.reload);
+    // gulp.watch("manifest.json").on("change", browserSync.reload);
 
 }));
 
