@@ -31,7 +31,7 @@ class DBHelper {
    */
   static fetchRestaurantsFromIDB(callback) {
 
-    var dbPromise = idb.open('restaurantDB');
+    // var dbPromise = idb.open('restaurantDB');
 
     dbPromise.then(function(db) {
       var tx = db.transaction('restaurants', 'readonly');
