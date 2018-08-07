@@ -17,6 +17,27 @@ class DBHelper {
 
   }
 
+
+  static fetchRestaurants(callback) {
+
+    DBHelper.fetchRestaurantsFromIDB((error, data) => {
+    
+      if (data && data.length){
+        callback(null, data);
+      } else {
+        DBHelper.fetchRestaurantsFromServer( (error, data) => {
+          if (error) {
+            console.log (error);
+            return;
+          }
+          // console.log(data)
+          callback(null, data)
+        });
+      }
+    })
+  }
+
+
   /**
    * Fetch all restaurants from server.
    */
@@ -26,12 +47,13 @@ class DBHelper {
       // .then(response => console.dir(response))
       .then(restaurants => callback(null, restaurants));
   }
+
   /**
    * Fetch all restaurants from idb
    */
   static fetchRestaurantsFromIDB(callback) {
 
-    // var dbPromise = idb.open('restaurantDB');
+    var dbPromise = idb.open('restaurantDB');
 
     dbPromise.then(function(db) {
       var tx = db.transaction('restaurants', 'readonly');
@@ -125,8 +147,6 @@ class DBHelper {
    * Save review to Server
    */
   static saveReviewToServer(review){
-    console.log(review)
-    debugger
     // this function can receive a formData or a javascript object. Fetch can't work with js object:
     if (!(review instanceof FormData)){
       review = JSON.stringify(review);
@@ -162,7 +182,8 @@ class DBHelper {
    */
   static fetchRestaurantByCuisine(cuisine, callback) {
     // Fetch all restaurants  with proper error handling
-    DBHelper.fetchRestaurantsFromIDB((error, restaurants) => {
+    // DBHelper.fetchRestaurantsFromIDB((error, restaurants) => {
+    DBHelper.fetchRestaurants((error, restaurants) => {
       if (error) {
         callback(error, null);
       } else {
@@ -194,7 +215,8 @@ class DBHelper {
    */
   static fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood, callback) {
     // Fetch all restaurants
-    DBHelper.fetchRestaurantsFromIDB((error, restaurants) => {
+    // DBHelper.fetchRestaurantsFromIDB((error, restaurants) => {
+    DBHelper.fetchRestaurants((error, restaurants) => {
       if (error) {
         callback(error, null);
       } else {

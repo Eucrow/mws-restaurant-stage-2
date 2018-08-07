@@ -144,8 +144,6 @@ resetRestaurants = (restaurants) => {
  * Create all restaurants HTML and add them to the webpage.
  */
 fillRestaurantsHTML = (restaurants = self.restaurants) => {
-  // console.log(restaurants);
-  debugger
   const ul = document.getElementById('restaurants-list');
   restaurants.forEach(restaurant => {
     ul.setAttribute('aria-label', `List of restaurants`)
