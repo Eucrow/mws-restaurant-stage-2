@@ -3,7 +3,7 @@ window.onload = function () {
     const offline_event = new Event("offline_event");
     
     navigator.serviceWorker.addEventListener('message', message => {
-
+        console.log("Message received: " + message)
         if (message.data === "review-submission") {
             // when the conection is ready, send the pendigs reviews to server
             // console.log ("sending a review-submission message")

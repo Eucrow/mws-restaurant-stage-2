@@ -5,7 +5,8 @@ if (!('indexedDB' in window)) {
 var dbPromise = idb.open('reviewsDB', 3, function(upgradeDb){
     if (!upgradeDb.objectStoreNames.contains('reviews')){
         var reviewsStore = upgradeDb.createObjectStore('reviews', {
-            keyPath: 'id'
+            keyPath: 'id',
+            autoIncrement:true
         })
     }
 });
@@ -16,7 +17,7 @@ dbPromise.then(db => {
             var tx = db.transaction('reviews', 'readwrite');
             var keyValStore = tx.objectStore('reviews');
             // create variable pendingToUpdateFavorite to use when there are any problems
-            // with the conection
+            // with the connection
             rest.pendingToUpdateFavorite = false;
             keyValStore.put(rest);
         })

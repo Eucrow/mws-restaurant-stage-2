@@ -183,7 +183,8 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
  */
 fillReviews = () => {
   // console.log ('inside fillReviews')
-  DBHelper.fetchReviewsByRestaurantFromServer(self.restaurant.id)
+  DBHelper.fetchReviewsByRestaurantFromIDB(self.restaurant.id)
+  // DBHelper.fetchReviewsByRestaurantFromServer(self.restaurant.id)
     .then(reviews => fillReviewsHTML(reviews))
     .catch((err) => {
       console.log(err);

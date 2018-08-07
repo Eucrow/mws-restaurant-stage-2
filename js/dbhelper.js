@@ -59,10 +59,19 @@ class DBHelper {
   }
 
   static fetchReviewsFromIDB(){
-    return dbPendingPromise.then(function(db){
+    return dbPromise.then(function(db){
       var tx = db.transaction('reviews', 'readonly');
       var store = tx.objectStore('reviews');
       return store.getAll();
+    })
+  }
+
+  static fetchReviewsByRestaurantFromIDB(restaurantId){
+    return DBHelper.fetchReviewsFromIDB()
+    .then(reviews => reviews.filter(review => review.restaurant_id == restaurantId))
+    .then(reviews => {
+      console.log(reviews)
+      return (reviews)
     })
   }
 
@@ -91,12 +100,23 @@ class DBHelper {
   }
 
   /**
-   * Save review to pendingReviewsDB
+   * Save pending review to local pendingReviewsDB
    */
-  static savePendingReview(review){
+  static savePendingReviewToPengingReviewsDB(review){
     return dbPendingPromise.then(function(db){
       var tx = db.transaction('pendingReviews', 'readwrite');
       var store = tx.objectStore('pendingReviews');
+      store.add(review);
+    })
+  }
+
+    /**
+   * Save review to local ReviewsDB
+   */
+  static saveReviewToReviewsDB(review){
+    return dbPromise.then(function(db){
+      var tx = db.transaction('reviews', 'readwrite');
+      var store = tx.objectStore('reviews');
       store.add(review);
     })
   }
@@ -105,6 +125,8 @@ class DBHelper {
    * Save review to Server
    */
   static saveReviewToServer(review){
+    console.log(review)
+    debugger
     // this function can receive a formData or a javascript object. Fetch can't work with js object:
     if (!(review instanceof FormData)){
       review = JSON.stringify(review);
@@ -113,6 +135,7 @@ class DBHelper {
       method: 'POST',
       body: review
     })
+    .catch(error => (console.log (error)))
   }
   
   /**
