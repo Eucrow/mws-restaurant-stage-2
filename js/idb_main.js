@@ -14,8 +14,12 @@ var dbPromise = idb.open('restaurantDB', 10, function(upgradeDb){
 
   
 dbPromise.then(db => {
-    DBHelper.fetchRestaurantsFromServer((error, restaurants) => {
+    // DBHelper.fetchRestaurantsFromServer((error, restaurants) => {
+    DBHelper.fetchRestaurants((error, restaurants) => {
+        if(error) { console.log(error)}
+        console.log(restaurants)
         restaurants.forEach(function(rest){
+            // console.log(rest)
             var tx = db.transaction('restaurants', 'readwrite');
             var keyValStore = tx.objectStore('restaurants');
             // Add a field to check if is_favorite variable has been updated
@@ -27,6 +31,7 @@ dbPromise.then(db => {
             // }
             keyValStore.put(rest);
         })
+        
     })
 });
 

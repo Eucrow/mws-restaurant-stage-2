@@ -2,21 +2,23 @@ if (!('indexedDB' in window)) {
     console.log('This browser doesn\'t support IndexedDB');
   }
 
-var dbPromise = idb.open('reviewsDB', 3, function(upgradeDb){
+var dbPromiseReview = idb.open('reviewsDB', 3, function(upgradeDb){
     if (!upgradeDb.objectStoreNames.contains('reviews')){
         var reviewsStore = upgradeDb.createObjectStore('reviews', {
-            keyPath: 'id'
+            keyPath: 'id',
+            autoIncrement:true
         })
     }
 });
 
-dbPromise.then(db => {
-    DBHelper.fetchReviewsFromServer((error, reviews) => {
+dbPromiseReview.then(db => {
+    // DBHelper.fetchReviewsFromServer((error, reviews) => {
+    DBHelper.fetchReviews((error, reviews) => {
         reviews.forEach(function(rest){
             var tx = db.transaction('reviews', 'readwrite');
             var keyValStore = tx.objectStore('reviews');
             // create variable pendingToUpdateFavorite to use when there are any problems
-            // with the conection
+            // with the connection
             rest.pendingToUpdateFavorite = false;
             keyValStore.put(rest);
         })

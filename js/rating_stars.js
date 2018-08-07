@@ -126,10 +126,12 @@ fillFormReview = (restaurant_id) => {
         now = Date.now();
         object.createdAt = now;
 
-        // before send the reviews to server, save it in local DB
-        DBHelper.savePendingReview(object)
+        // before send the reviews to server, save it in local DB and in pending local DB
+        DBHelper.saveReviewToReviewsDB(object);
+
+        DBHelper.savePendingReviewToPengingReviewsDB(object)
         .then(addPendingReviewToHTML(object))
-        .then(formReview.reset())
+        .then(formReview.reset());
 
         // 2. register the background sync (which will send the review to server, when it is ready)
         navigator.serviceWorker.ready.then(function(reg) {
