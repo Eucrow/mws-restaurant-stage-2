@@ -59,7 +59,7 @@ class DBHelper {
   }
 
   static fetchReviewsFromIDB(){
-    return dbPromise.then(function(db){
+    return dbPromiseReview.then(function(db){
       var tx = db.transaction('reviews', 'readonly');
       var store = tx.objectStore('reviews');
       return store.getAll();
@@ -114,7 +114,7 @@ class DBHelper {
    * Save review to local ReviewsDB
    */
   static saveReviewToReviewsDB(review){
-    return dbPromise.then(function(db){
+    return dbPromiseReview.then(function(db){
       var tx = db.transaction('reviews', 'readwrite');
       var store = tx.objectStore('reviews');
       store.add(review);
