@@ -12,7 +12,8 @@ var dbPromiseReview = idb.open('reviewsDB', 3, function(upgradeDb){
 });
 
 dbPromiseReview.then(db => {
-    DBHelper.fetchReviewsFromServer((error, reviews) => {
+    // DBHelper.fetchReviewsFromServer((error, reviews) => {
+    DBHelper.fetchReviews((error, reviews) => {
         reviews.forEach(function(rest){
             var tx = db.transaction('reviews', 'readwrite');
             var keyValStore = tx.objectStore('reviews');

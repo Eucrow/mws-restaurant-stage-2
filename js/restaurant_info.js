@@ -183,12 +183,18 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
  */
 fillReviews = () => {
   // console.log ('inside fillReviews')
-  DBHelper.fetchReviewsByRestaurantFromIDB(self.restaurant.id)
+  // DBHelper.fetchReviewsByRestaurantFromIDB(self.restaurant.id)
   // DBHelper.fetchReviewsByRestaurantFromServer(self.restaurant.id)
-    .then(reviews => fillReviewsHTML(reviews))
-    .catch((err) => {
-      console.log(err);
-     });
+  DBHelper.fetchReviewsByRestaurantID(self.restaurant.id, (error, reviews) => {
+    if (error) {
+      console.log (error)
+      return;
+    }
+    fillReviewsHTML(reviews)
+  })
+  // .catch((err) => {
+  //   console.log(err);
+  // });
 }
 
 addPendingReviewToHTML = (review) => {

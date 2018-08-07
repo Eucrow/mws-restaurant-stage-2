@@ -17,7 +17,11 @@ class DBHelper {
 
   }
 
-
+  /**
+   * Fetch restaurants: first try it in local database (for the first time the page is loaded)
+   * and then try to fetch from the network
+   * @param {} callback 
+   */
   static fetchRestaurants(callback) {
 
     DBHelper.fetchRestaurantsFromIDB((error, data) => {
@@ -62,7 +66,28 @@ class DBHelper {
     }).then(restaurants => callback(null, restaurants));
     
   }
-
+  /**
+   * Fetch reviews: first try it in local database (for the first time the page is loaded)
+   * and then try to fetch from the network
+   * @param {} callback 
+   */
+  static fetchReviews(callback){
+    DBHelper.fetchReviewsFromIDB()
+    .then(data => {
+      if (data && data.length) {
+        callback(null, data)
+      } else {
+        this.fetchReviewsFromServer((error, data) => {
+          
+          if(error) {
+            console.log(error);
+            return;
+          }
+          callback(null, data)
+        })
+      }
+    })
+  }
   /**
    * Fetch all reviews from server
    */
@@ -71,7 +96,15 @@ class DBHelper {
     .then(response => response.json())
     .then(restaurants => callback(null, restaurants));
   }
-
+  
+  static fetchReviewsFromIDB(){
+    return dbPromiseReview.then(function(db){
+      var tx = db.transaction('reviews', 'readonly');
+      var store = tx.objectStore('reviews');
+      return store.getAll();
+    })
+  }
+  
   /**
    * Fetch all reviews of a restaurant from server.
    */
@@ -80,14 +113,9 @@ class DBHelper {
       .then(response => response.json())
   }
 
-  static fetchReviewsFromIDB(){
-    return dbPromiseReview.then(function(db){
-      var tx = db.transaction('reviews', 'readonly');
-      var store = tx.objectStore('reviews');
-      return store.getAll();
-    })
-  }
-
+  /**
+   * Fetch all reviews of a restaurant from local.
+   */
   static fetchReviewsByRestaurantFromIDB(restaurantId){
     return DBHelper.fetchReviewsFromIDB()
     .then(reviews => reviews.filter(review => review.restaurant_id == restaurantId))
@@ -95,6 +123,18 @@ class DBHelper {
       console.log(reviews)
       return (reviews)
     })
+  }
+
+  static fetchReviewsByRestaurantID(restaurantId, callback){
+
+    DBHelper.fetchReviews((error, data) => {
+      if (error){
+        callback(error, null);
+      }
+      const reviews = data.filter(review => review.restaurant_id == restaurantId)
+      callback(null, reviews);
+    })
+    
   }
 
   /**
